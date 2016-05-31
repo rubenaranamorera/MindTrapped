@@ -21,4 +21,9 @@ public class FakeQuestionDataStore implements QuestionDataStore {
 
         return Observable.just(questionEntity);
     }
+
+    @Override
+    public Observable<Boolean> initializeDatabase() {
+        return null;
+    }
 }

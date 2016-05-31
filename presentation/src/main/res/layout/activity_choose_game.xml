@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Single game"
         android:id="@+id/choose_game_single_game_button"
+        android:enabled="false"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

@@ -9,8 +9,7 @@ import rx.Observable;
  */
 public interface QuestionDataStore {
 
-  /**
-   * Get an {@link rx.Observable} which will emit a {@link QuestionEntity}
-   */
   Observable<QuestionEntity> questionEntity();
+
+  Observable<Boolean> initializeDatabase();
 }

@@ -1,24 +1,29 @@
 package com.armoz.mindtrapped.presentation.choosegame.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.armoz.mindtrapped.R;
 import com.armoz.mindtrapped.presentation.base.activity.BaseActivity;
 import com.armoz.mindtrapped.presentation.choosegame.component.DaggerChooseGameComponent;
 import com.armoz.mindtrapped.presentation.choosegame.module.ChooseGameModule;
+import com.armoz.mindtrapped.presentation.choosegame.presenter.ChooseGamePresenter;
 import com.armoz.mindtrapped.presentation.singlegame.activity.SingleGameActivity;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ChooseGameActivity extends BaseActivity {
 
     @Inject
-    SharedPreferences sharedPreferences;
+    ChooseGamePresenter presenter;
+
+    @BindView(R.id.choose_game_single_game_button)
+    Button singleGameButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,8 @@ public class ChooseGameActivity extends BaseActivity {
         setContentView(R.layout.activity_choose_game);
         ButterKnife.bind(this);
         initializeInjector();
+        presenter.initializeDatabase();
+        presenter.setActivity(this);
     }
 
     @OnClick(R.id.choose_game_single_game_button)
@@ -41,5 +48,9 @@ public class ChooseGameActivity extends BaseActivity {
                 .chooseGameModule(new ChooseGameModule())
                 .build()
                 .inject(this);
+    }
+
+    public void onDatabaseInitialized() {
+        singleGameButton.setEnabled(true);
     }
 }

@@ -1,7 +1,11 @@
 package com.armoz.data.entity;
 
-public class QuestionEntity {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+public class QuestionEntity extends RealmObject{
+
+    @PrimaryKey
     private int id;
 
     private String question;

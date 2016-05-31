@@ -28,7 +28,6 @@ public class QuestionDataRepository implements QuestionRepository {
 
     @Override
     public Observable<Question> question() {
-        System.out.println("-----------------------HOLA----------------------");
         final QuestionDataStore questionDataStore = this.questionDataStoreFactory.create();
         return questionDataStore.questionEntity().map(new Func1<QuestionEntity, Question>() {
             @Override

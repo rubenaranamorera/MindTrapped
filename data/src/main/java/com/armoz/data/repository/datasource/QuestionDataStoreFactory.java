@@ -1,5 +1,7 @@
 package com.armoz.data.repository.datasource;
 
+import android.content.Context;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -9,16 +11,18 @@ import javax.inject.Singleton;
 @Singleton
 public class QuestionDataStoreFactory {
 
+    private Context context;
     @Inject
-    public QuestionDataStoreFactory() {
+    public QuestionDataStoreFactory(Context context) {
+        this.context = context;
     }
 
 
     /**
      * Create {@link QuestionDataStore} from a user id.
      */
-    public QuestionDataStore create() {
-        return new FakeQuestionDataStore();
+    public RealmQuestionDataStore create() {
+        return new RealmQuestionDataStore(context);
     }
 
 }

@@ -9,13 +9,13 @@ import javax.inject.Inject;
 
 import rx.Observable;
 
-public class GetQuestion extends UseCase {
+public class GetQuestionUseCase extends UseCase {
 
     private final QuestionRepository questionRepository;
 
     @Inject
-    public GetQuestion(QuestionRepository questionRepository,
-                       ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public GetQuestionUseCase(QuestionRepository questionRepository,
+                              ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.questionRepository = questionRepository;
     }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MindTrapped</string>
+    <string name="stadistics">Stadistics</string>
+    <string name="single_game">Single game</string>
 </resources>

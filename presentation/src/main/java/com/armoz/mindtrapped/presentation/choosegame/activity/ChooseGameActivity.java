@@ -10,6 +10,7 @@ import com.armoz.mindtrapped.presentation.choosegame.component.DaggerChooseGameC
 import com.armoz.mindtrapped.presentation.choosegame.module.ChooseGameModule;
 import com.armoz.mindtrapped.presentation.choosegame.presenter.ChooseGamePresenter;
 import com.armoz.mindtrapped.presentation.singlegame.activity.SingleGameActivity;
+import com.armoz.mindtrapped.presentation.statistics.activity.StatisticsActivity;
 
 import javax.inject.Inject;
 
@@ -38,6 +39,12 @@ public class ChooseGameActivity extends BaseActivity {
     @OnClick(R.id.choose_game_single_game_button)
     public void goToSingleGame() {
         Intent intent = SingleGameActivity.buildIntent(this);
+        this.startActivity(intent);
+    }
+
+    @OnClick(R.id.choose_game_stadistics_button)
+    public void goToStatistics() {
+        Intent intent = StatisticsActivity.buildIntent(this);
         this.startActivity(intent);
     }
 

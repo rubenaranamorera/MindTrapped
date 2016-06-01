@@ -7,6 +7,7 @@ import com.armoz.mindtrapped.presentation.base.module.ApplicationModule;
 import com.mindtrapped.executor.PostExecutionThread;
 import com.mindtrapped.executor.ThreadExecutor;
 import com.mindtrapped.repository.QuestionRepository;
+import com.mindtrapped.repository.StatisticsRepository;
 
 import javax.inject.Singleton;
 
@@ -24,4 +25,6 @@ public interface ApplicationComponent {
     PostExecutionThread postExecutionThread();
 
     QuestionRepository questionRepository();
+
+    StatisticsRepository statisticsRepository();
 }

@@ -1,9 +1,9 @@
-package com.armoz.data.repository;
+package com.armoz.data.questionrepository;
 
-import com.armoz.data.entity.QuestionEntity;
-import com.armoz.data.entity.mapper.QuestionEntityMapper;
-import com.armoz.data.repository.datasource.QuestionDataStore;
-import com.armoz.data.repository.datasource.QuestionDataStoreFactory;
+import com.armoz.data.entities.QuestionEntity;
+import com.armoz.data.entities.mappers.QuestionEntityMapper;
+import com.armoz.data.questionrepository.datasource.QuestionDataStore;
+import com.armoz.data.questionrepository.datasource.QuestionDataStoreFactory;
 import com.mindtrapped.model.Question;
 import com.mindtrapped.repository.QuestionRepository;
 

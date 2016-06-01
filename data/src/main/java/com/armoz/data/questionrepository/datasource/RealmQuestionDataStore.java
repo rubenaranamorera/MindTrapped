@@ -1,9 +1,9 @@
-package com.armoz.data.repository.datasource;
+package com.armoz.data.questionrepository.datasource;
 
 import android.content.Context;
 
 import com.armoz.data.R;
-import com.armoz.data.entity.QuestionEntity;
+import com.armoz.data.entities.QuestionEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

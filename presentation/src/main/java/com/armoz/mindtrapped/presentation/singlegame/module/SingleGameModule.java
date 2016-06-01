@@ -4,7 +4,7 @@ import com.armoz.mindtrapped.presentation.base.PerActivity;
 import com.armoz.mindtrapped.presentation.singlegame.presenter.SingleGamePresenter;
 import com.mindtrapped.executor.PostExecutionThread;
 import com.mindtrapped.executor.ThreadExecutor;
-import com.mindtrapped.interactor.GetQuestion;
+import com.mindtrapped.interactor.GetQuestionUseCase;
 import com.mindtrapped.interactor.UseCase;
 import com.mindtrapped.repository.QuestionRepository;
 
@@ -25,6 +25,6 @@ public class SingleGameModule {
     @Provides @PerActivity UseCase provideGetQuestionUseCase(
             QuestionRepository questionRepository, ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread) {
-        return new GetQuestion(questionRepository, threadExecutor, postExecutionThread);
+        return new GetQuestionUseCase(questionRepository, threadExecutor, postExecutionThread);
     }
 }

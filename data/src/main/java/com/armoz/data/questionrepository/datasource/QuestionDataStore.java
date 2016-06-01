@@ -1,6 +1,6 @@
-package com.armoz.data.repository.datasource;
+package com.armoz.data.questionrepository.datasource;
 
-import com.armoz.data.entity.QuestionEntity;
+import com.armoz.data.entities.QuestionEntity;
 
 import rx.Observable;
 

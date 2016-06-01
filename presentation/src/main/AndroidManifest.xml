@@ -22,7 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.singlegame.activity.SingleGameActivity"></activity>
+        <activity android:name=".presentation.singlegame.activity.SingleGameActivity" />
+        <activity android:name=".presentation.statistics.activity.StadisticsActivity"></activity>
     </application>
 
 </manifest>

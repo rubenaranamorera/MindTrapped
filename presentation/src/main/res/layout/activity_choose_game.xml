@@ -12,8 +12,18 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Single game"
+        android:text="@string/single_game"
         android:id="@+id/choose_game_single_game_button"
+        android:enabled="false"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_below="@id/choose_game_single_game_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stadistics"
+        android:id="@+id/choose_game_stadistics_button"
         android:enabled="false"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

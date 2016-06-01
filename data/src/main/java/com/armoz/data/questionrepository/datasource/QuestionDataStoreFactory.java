@@ -1,4 +1,4 @@
-package com.armoz.data.repository.datasource;
+package com.armoz.data.questionrepository.datasource;
 
 import android.content.Context;
 

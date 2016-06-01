@@ -1,4 +1,4 @@
-package com.armoz.data.entity;
+package com.armoz.data.entities;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

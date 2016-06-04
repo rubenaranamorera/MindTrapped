@@ -8,20 +8,14 @@ import com.armoz.mindtrapped.R;
 import com.armoz.mindtrapped.presentation.base.activity.BaseActivity;
 import com.armoz.mindtrapped.presentation.choosegame.component.DaggerChooseGameComponent;
 import com.armoz.mindtrapped.presentation.choosegame.module.ChooseGameModule;
-import com.armoz.mindtrapped.presentation.choosegame.presenter.ChooseGamePresenter;
 import com.armoz.mindtrapped.presentation.singlegame.activity.SingleGameActivity;
 import com.armoz.mindtrapped.presentation.statistics.activity.StatisticsActivity;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ChooseGameActivity extends BaseActivity {
-
-    @Inject
-    ChooseGamePresenter presenter;
 
     @BindView(R.id.choose_game_single_game_button)
     Button singleGameButton;
@@ -32,8 +26,6 @@ public class ChooseGameActivity extends BaseActivity {
         setContentView(R.layout.activity_choose_game);
         ButterKnife.bind(this);
         initializeInjector();
-        presenter.initializeDatabase();
-        presenter.setActivity(this);
     }
 
     @OnClick(R.id.choose_game_single_game_button)
@@ -42,7 +34,7 @@ public class ChooseGameActivity extends BaseActivity {
         this.startActivity(intent);
     }
 
-    @OnClick(R.id.choose_game_stadistics_button)
+    @OnClick(R.id.choose_game_statistics_button)
     public void goToStatistics() {
         Intent intent = StatisticsActivity.buildIntent(this);
         this.startActivity(intent);
@@ -55,9 +47,5 @@ public class ChooseGameActivity extends BaseActivity {
                 .chooseGameModule(new ChooseGameModule())
                 .build()
                 .inject(this);
-    }
-
-    public void onDatabaseInitialized() {
-        singleGameButton.setEnabled(true);
     }
 }

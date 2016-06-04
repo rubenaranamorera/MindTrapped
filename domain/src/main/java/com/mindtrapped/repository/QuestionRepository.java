@@ -9,7 +9,5 @@ import rx.Observable;
  */
 public interface QuestionRepository {
 
-    Observable<Boolean> initializeDatabase();
-
     Observable<Question> question();
 }

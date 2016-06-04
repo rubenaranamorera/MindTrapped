@@ -27,9 +27,9 @@ public class QuestionEntityMapper {
 
     public List<Question> transform (List<QuestionEntity> questionEntityList){
         List<Question> questionList = Collections.EMPTY_LIST;
-        /*for (QuestionEntity questionEntity: questionEntityList){
+        for (QuestionEntity questionEntity: questionEntityList){
             questionList.add(transform(questionEntity));
-        }*/
+        }
         return questionList;
     }
 }

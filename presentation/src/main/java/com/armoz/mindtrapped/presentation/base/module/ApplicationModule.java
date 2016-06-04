@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.armoz.data.executor.JobExecutor;
 import com.armoz.data.questionrepository.QuestionDataRepository;
+import com.armoz.data.realmbase.RealmDatabase;
 import com.armoz.data.statisticsrepository.StatisticsDataRepository;
 import com.armoz.mindtrapped.presentation.base.AndroidApplication;
 import com.armoz.mindtrapped.presentation.base.UIThread;
@@ -34,23 +35,33 @@ public class ApplicationModule {
         return this.application;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
         return jobExecutor;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     PostExecutionThread providePostExecutionThread(UIThread uiThread) {
         return uiThread;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     QuestionRepository provideQuestionRepository(QuestionDataRepository questionDataRepository) {
         return questionDataRepository;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     StatisticsRepository provideStatisticsRepository(StatisticsDataRepository statisticsDataRepository) {
         return statisticsDataRepository;
+    }
+
+    @Provides
+    @Singleton
+    RealmDatabase provideRealmDatabase(Context context) {
+        return new RealmDatabase(context);
     }
 }

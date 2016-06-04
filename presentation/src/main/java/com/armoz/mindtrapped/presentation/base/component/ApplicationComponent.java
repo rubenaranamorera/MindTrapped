@@ -2,6 +2,7 @@ package com.armoz.mindtrapped.presentation.base.component;
 
 import android.content.Context;
 
+import com.armoz.data.realmbase.RealmDatabase;
 import com.armoz.mindtrapped.presentation.base.activity.BaseActivity;
 import com.armoz.mindtrapped.presentation.base.module.ApplicationModule;
 import com.mindtrapped.executor.PostExecutionThread;
@@ -27,4 +28,6 @@ public interface ApplicationComponent {
     QuestionRepository questionRepository();
 
     StatisticsRepository statisticsRepository();
+
+    RealmDatabase realmDatabase();
 }

@@ -1,6 +1,6 @@
 package com.armoz.data.questionrepository.datasource;
 
-import android.content.Context;
+import com.armoz.data.realmbase.RealmDatabase;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -11,10 +11,11 @@ import javax.inject.Singleton;
 @Singleton
 public class QuestionDataStoreFactory {
 
-    private Context context;
+    private RealmDatabase realmDatabase;
+
     @Inject
-    public QuestionDataStoreFactory(Context context) {
-        this.context = context;
+    public QuestionDataStoreFactory(RealmDatabase realmDatabase) {
+        this.realmDatabase = realmDatabase;
     }
 
 
@@ -22,7 +23,7 @@ public class QuestionDataStoreFactory {
      * Create {@link QuestionDataStore} from a user id.
      */
     public RealmQuestionDataStore create() {
-        return new RealmQuestionDataStore(context);
+        return new RealmQuestionDataStore(realmDatabase);
     }
 
 }

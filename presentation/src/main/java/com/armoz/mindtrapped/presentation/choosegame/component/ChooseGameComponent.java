@@ -4,8 +4,6 @@ import com.armoz.mindtrapped.presentation.base.PerActivity;
 import com.armoz.mindtrapped.presentation.base.component.ApplicationComponent;
 import com.armoz.mindtrapped.presentation.choosegame.activity.ChooseGameActivity;
 import com.armoz.mindtrapped.presentation.choosegame.module.ChooseGameModule;
-import com.armoz.mindtrapped.presentation.choosegame.presenter.ChooseGamePresenter;
-import com.mindtrapped.interactor.UseCase;
 
 import dagger.Component;
 
@@ -13,8 +11,4 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class, modules = {ChooseGameModule.class})
 public interface ChooseGameComponent{
     void inject(ChooseGameActivity chooseGameActivity);
-
-    ChooseGamePresenter chooseGamePresenter();
-
-    UseCase initializeDatabaseUseCase();
 }

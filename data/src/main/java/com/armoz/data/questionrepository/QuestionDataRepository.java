@@ -19,8 +19,6 @@ public class QuestionDataRepository implements QuestionRepository {
     private final QuestionDataStoreFactory questionDataStoreFactory;
     private final QuestionEntityMapper questionEntityMapper;
 
-    private QuestionDataStore questionDataStore;
-
     @Inject
     public QuestionDataRepository(QuestionDataStoreFactory dataStoreFactory,
                                   QuestionEntityMapper questionEntityMapper) {
@@ -29,13 +27,8 @@ public class QuestionDataRepository implements QuestionRepository {
     }
 
     @Override
-    public Observable<Boolean> initializeDatabase() {
-        questionDataStore = questionDataStoreFactory.create();
-        return questionDataStore.initializeDatabase();
-    }
-
-    @Override
     public Observable<Question> question() {
+        final QuestionDataStore questionDataStore = this.questionDataStoreFactory.create();
         return questionDataStore.questionEntity().map(new Func1<QuestionEntity, Question>() {
             @Override
             public Question call(QuestionEntity questionEntity) {

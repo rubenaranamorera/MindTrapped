@@ -2,6 +2,7 @@ package com.armoz.data.questionrepository.datasource;
 
 import com.armoz.data.entities.QuestionEntity;
 
+import io.realm.RealmList;
 import rx.Observable;
 
 /**
@@ -9,7 +10,6 @@ import rx.Observable;
  */
 public interface QuestionDataStore {
 
-  Observable<QuestionEntity> questionEntity();
+    Observable<QuestionEntity> getUnseenQuestionEntity(RealmList<QuestionEntity> seenQuestionEntityList);
 
-  Observable<Boolean> initializeDatabase();
 }

@@ -5,7 +5,7 @@ import com.armoz.mindtrapped.presentation.base.component.ApplicationComponent;
 import com.armoz.mindtrapped.presentation.singlegame.activity.SingleGameActivity;
 import com.armoz.mindtrapped.presentation.singlegame.module.SingleGameModule;
 import com.armoz.mindtrapped.presentation.singlegame.presenter.SingleGamePresenter;
-import com.mindtrapped.interactor.GetQuestionUseCase;
+import com.mindtrapped.interactor.GetUnseenQuestionUseCase;
 import com.mindtrapped.interactor.GetStatisticsUseCase;
 import com.mindtrapped.interactor.UpdateStatisticsUseCase;
 
@@ -18,7 +18,7 @@ public interface SingleGameComponent {
 
     SingleGamePresenter singleGamePresenter();
 
-    GetQuestionUseCase provideGetQuestionUseCase();
+    GetUnseenQuestionUseCase provideGetQuestionUseCase();
 
     GetStatisticsUseCase provideGetStatisticsUseCase();
 

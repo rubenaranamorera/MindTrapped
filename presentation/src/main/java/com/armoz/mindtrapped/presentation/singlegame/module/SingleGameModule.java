@@ -4,7 +4,7 @@ import com.armoz.mindtrapped.presentation.base.PerActivity;
 import com.armoz.mindtrapped.presentation.singlegame.presenter.SingleGamePresenter;
 import com.mindtrapped.executor.PostExecutionThread;
 import com.mindtrapped.executor.ThreadExecutor;
-import com.mindtrapped.interactor.GetQuestionUseCase;
+import com.mindtrapped.interactor.GetUnseenQuestionUseCase;
 import com.mindtrapped.interactor.GetStatisticsUseCase;
 import com.mindtrapped.interactor.UpdateStatisticsUseCase;
 import com.mindtrapped.repository.QuestionRepository;
@@ -20,14 +20,15 @@ public class SingleGameModule {
     }
 
     @Provides @PerActivity
-    SingleGamePresenter singleGamePresenter(GetQuestionUseCase questionUseCase, GetStatisticsUseCase statisticsUseCase, UpdateStatisticsUseCase updateStatisticsUseCase){
+    SingleGamePresenter singleGamePresenter(GetUnseenQuestionUseCase questionUseCase, GetStatisticsUseCase statisticsUseCase, UpdateStatisticsUseCase updateStatisticsUseCase){
         return new SingleGamePresenter(questionUseCase, statisticsUseCase, updateStatisticsUseCase);
     }
 
-    @Provides @PerActivity GetQuestionUseCase provideGetQuestionUseCase(
+    @Provides @PerActivity
+    GetUnseenQuestionUseCase provideGetQuestionUseCase(
             QuestionRepository questionRepository, ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread) {
-        return new GetQuestionUseCase(questionRepository, threadExecutor, postExecutionThread);
+        return new GetUnseenQuestionUseCase(questionRepository, threadExecutor, postExecutionThread);
     }
 
     @Provides @PerActivity GetStatisticsUseCase getStatisticsUseCase(

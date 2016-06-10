@@ -5,7 +5,7 @@ import com.armoz.mindtrapped.presentation.base.PerActivity;
 import com.armoz.mindtrapped.presentation.singlegame.activity.SingleGameActivity;
 import com.fernandocejas.frodo.annotation.RxLogSubscriber;
 import com.mindtrapped.interactor.DefaultSubscriber;
-import com.mindtrapped.interactor.GetQuestionUseCase;
+import com.mindtrapped.interactor.GetUnseenQuestionUseCase;
 import com.mindtrapped.interactor.GetStatisticsUseCase;
 import com.mindtrapped.interactor.UpdateStatisticsUseCase;
 import com.mindtrapped.model.Question;
@@ -18,12 +18,12 @@ public class SingleGamePresenter {
 
     private SingleGameActivity activity;
 
-    private final GetQuestionUseCase getQuestionUseCase;
+    private final GetUnseenQuestionUseCase getUnseenQuestionUseCase;
     private final GetStatisticsUseCase getStatisticsUseCase;
     private final UpdateStatisticsUseCase updateStatisticsUseCase;
 
-    public SingleGamePresenter(GetQuestionUseCase getQuestionUseCase, GetStatisticsUseCase getStatisticsUseCase, UpdateStatisticsUseCase updateStatisticsUseCase) {
-        this.getQuestionUseCase = getQuestionUseCase;
+    public SingleGamePresenter(GetUnseenQuestionUseCase getUnseenQuestionUseCase, GetStatisticsUseCase getStatisticsUseCase, UpdateStatisticsUseCase updateStatisticsUseCase) {
+        this.getUnseenQuestionUseCase = getUnseenQuestionUseCase;
         this.getStatisticsUseCase = getStatisticsUseCase;
         this.updateStatisticsUseCase = updateStatisticsUseCase;
     }
@@ -33,8 +33,8 @@ public class SingleGamePresenter {
     }
 
 
-    public void loadQuestion(List<Question> questionSeenList, List<Question> correctQuestionList) {
-        getQuestionUseCase.execute(new QuestionSubscriber());
+    public void loadUnseenQuestion(List<Question> questionSeenList) {
+        getUnseenQuestionUseCase.execute(new UnseenQuestionSubscriber(), questionSeenList);
     }
 
     public void loadStatistics() {
@@ -51,7 +51,7 @@ public class SingleGamePresenter {
 
 
     @RxLogSubscriber
-    private final class QuestionSubscriber extends DefaultSubscriber<Question> {
+    private final class UnseenQuestionSubscriber extends DefaultSubscriber<Question> {
 
         @Override
         public void onCompleted() {

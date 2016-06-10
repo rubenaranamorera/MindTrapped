@@ -63,8 +63,7 @@ public class SingleGameActivity extends BaseActivity {
 
     public void onStatisticsLoaded(Statistics statistics) {
         this.statistics = statistics;
-
-        presenter.loadQuestion(statistics.getQuestionSeenList(), statistics.getCorrectQuestionList());
+        presenter.loadUnseenQuestion(statistics.getQuestionSeenList());
 
         //TODO:  show good questions / total questions seen
 
@@ -93,8 +92,10 @@ public class SingleGameActivity extends BaseActivity {
         if (isCorrectAnswer(answer)){
             updateStatisticsWithCorrectQuestion();
             question = null;
-            presenter.loadQuestion(statistics.getQuestionSeenList(), statistics.getCorrectQuestionList());
+            presenter.loadUnseenQuestion(statistics.getQuestionSeenList());
             answerButton.setEnabled(false);
+            responseView.setText("");
+            showOkSnackBar();
         } else {
             showErrorSnackBar();
         }
@@ -106,6 +107,15 @@ public class SingleGameActivity extends BaseActivity {
         View sbView = snackbar.getView();
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.RED);
+        snackbar.show();
+    }
+
+    private void showOkSnackBar() {
+        Snackbar snackbar = Snackbar
+                .make(view, getString(R.string.single_game_right_answer), Snackbar.LENGTH_LONG);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.GREEN);
         snackbar.show();
     }
 

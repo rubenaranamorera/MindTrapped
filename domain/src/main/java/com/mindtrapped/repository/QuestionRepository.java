@@ -2,6 +2,8 @@ package com.mindtrapped.repository;
 
 import com.mindtrapped.model.Question;
 
+import java.util.List;
+
 import rx.Observable;
 
 /**
@@ -9,5 +11,5 @@ import rx.Observable;
  */
 public interface QuestionRepository {
 
-    Observable<Question> question();
+    Observable<Question> getUnseenQuestion(List<Question> questionSeenList);
 }

@@ -5,6 +5,7 @@ import com.armoz.data.realmbase.RealmDatabase;
 
 import io.realm.Realm;
 import rx.Observable;
+import rx.functions.Func0;
 
 public class RealmStatisticsDataStore implements StatisticsDataStore {
 
@@ -12,39 +13,45 @@ public class RealmStatisticsDataStore implements StatisticsDataStore {
 
     public RealmStatisticsDataStore(RealmDatabase realmDatabase) {
         this.realmDatabase = realmDatabase;
-
-        /*RealmConfiguration realmConfig = new RealmConfiguration.Builder(context).
-                initialData(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        StatisticsEntity statisticsEntity = new StatisticsEntity();
-                        statisticsEntity.setCorrectQuestionsInARow(0);
-                        statisticsEntity.setQuestionSeenList(new RealmList<QuestionEntity>());
-                        statisticsEntity.setCorrectQuestionList(new RealmList<QuestionEntity>());
-                        realm.copyToRealm(statisticsEntity);
-                    }
-                })
-                .build();
-        Realm.setDefaultConfiguration(realmConfig);*/
     }
 
     @Override
     public Observable<StatisticsEntity> getStatisticsEntity() {
-        Realm realm = realmDatabase.getRealmInstance();
-        StatisticsEntity statisticsEntity = realm.where(StatisticsEntity.class).findFirst();
-        StatisticsEntity statisticsEntityUnmanaged = realm.copyFromRealm(statisticsEntity);
 
-        return Observable.just(statisticsEntityUnmanaged);
+        return Observable.defer(new Func0<Observable<StatisticsEntity>>() {
+            @Override
+            public Observable<StatisticsEntity> call() {
+                try {
+                    Realm realm = realmDatabase.getRealmInstance();
+                    StatisticsEntity statisticsEntity = realm.where(StatisticsEntity.class).findFirst();
+                    StatisticsEntity statisticsEntityUnmanaged = realm.copyFromRealm(statisticsEntity);
+
+                    return Observable.just(statisticsEntityUnmanaged);
+                } catch (Exception e) {
+                    return Observable.error(e);
+                }
+            }
+        });
     }
 
     public Observable<Void> updateStatistics(final StatisticsEntity statisticsEntity) {
-        Realm realm = realmDatabase.getRealmInstance();
-        realm.executeTransactionAsync(new Realm.Transaction() {
+
+        return Observable.defer(new Func0<Observable<Void>>() {
             @Override
-            public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(statisticsEntity);
+            public Observable<Void> call() {
+                try {
+                    Realm realm = realmDatabase.getRealmInstance();
+                    realm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            realm.copyToRealmOrUpdate(statisticsEntity);
+                        }
+                    });
+                    return Observable.empty();
+                } catch (Exception e) {
+                    return Observable.error(e);
+                }
             }
         });
-        return Observable.empty();
     }
 }

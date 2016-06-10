@@ -32,7 +32,7 @@ public class QuestionDataRepository implements QuestionRepository {
         return questionDataStore.questionEntity().map(new Func1<QuestionEntity, Question>() {
             @Override
             public Question call(QuestionEntity questionEntity) {
-                return questionEntityMapper.transform(questionEntity);
+                return questionEntityMapper.transformToDomainModel(questionEntity);
             }
         });
     }

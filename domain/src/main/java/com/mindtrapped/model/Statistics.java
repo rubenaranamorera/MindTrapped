@@ -4,6 +4,8 @@ import java.util.List;
 
 public class Statistics {
 
+    private long id;
+
     private List<Question> questionSeenList;
 
     private List<Question> correctQuestionList;
@@ -32,5 +34,13 @@ public class Statistics {
 
     public void setCorrectQuestionsInARow(int correctQuestionsInARow) {
         this.correctQuestionsInARow = correctQuestionsInARow;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

@@ -30,8 +30,13 @@ public class StatisticsDataRepository implements StatisticsRepository {
         return statisticsDataStoreFactory.create().getStatisticsEntity().map(new Func1<StatisticsEntity, Statistics>() {
             @Override
             public Statistics call(StatisticsEntity statisticsEntity) {
-                return statisticsEntityMapper.transform(statisticsEntity);
+                return statisticsEntityMapper.transformToDomainModel(statisticsEntity);
             }
         });
+    }
+
+    @Override
+    public Observable<Void> updateStatistics(Statistics statistics) {
+        return statisticsDataStoreFactory.create().updateStatistics(statisticsEntityMapper.transformToDataModel(statistics));
     }
 }

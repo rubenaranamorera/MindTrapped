@@ -2,8 +2,12 @@ package com.armoz.data.entities;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class StatisticsEntity extends RealmObject {
+
+    @PrimaryKey
+    private long id;
 
     private RealmList<QuestionEntity> questionSeenList;
 
@@ -14,7 +18,6 @@ public class StatisticsEntity extends RealmObject {
     public StatisticsEntity() {
         //empty
     }
-
 
     public RealmList<QuestionEntity> getQuestionSeenList() {
         return questionSeenList;
@@ -51,5 +54,13 @@ public class StatisticsEntity extends RealmObject {
         stringBuilder.append("*******************************");
 
         return stringBuilder.toString();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

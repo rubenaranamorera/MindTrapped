@@ -36,4 +36,15 @@ public class RealmStatisticsDataStore implements StatisticsDataStore {
 
         return Observable.just(statisticsEntityUnmanaged);
     }
+
+    public Observable<Void> updateStatistics(final StatisticsEntity statisticsEntity) {
+        Realm realm = realmDatabase.getRealmInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(statisticsEntity);
+            }
+        });
+        return Observable.empty();
+    }
 }

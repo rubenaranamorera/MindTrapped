@@ -10,4 +10,6 @@ import rx.Observable;
 public interface StatisticsRepository {
 
     Observable<Statistics> getStatistics();
+
+    Observable updateStatistics(Statistics statistics);
 }

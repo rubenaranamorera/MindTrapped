@@ -5,8 +5,10 @@ import com.armoz.mindtrapped.presentation.singlegame.presenter.SingleGamePresent
 import com.mindtrapped.executor.PostExecutionThread;
 import com.mindtrapped.executor.ThreadExecutor;
 import com.mindtrapped.interactor.GetQuestionUseCase;
-import com.mindtrapped.interactor.UseCase;
+import com.mindtrapped.interactor.GetStatisticsUseCase;
+import com.mindtrapped.interactor.UpdateStatisticsUseCase;
 import com.mindtrapped.repository.QuestionRepository;
+import com.mindtrapped.repository.StatisticsRepository;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,13 +20,26 @@ public class SingleGameModule {
     }
 
     @Provides @PerActivity
-    SingleGamePresenter singleGamePresenter(UseCase useCase){
-        return new SingleGamePresenter(useCase);
+    SingleGamePresenter singleGamePresenter(GetQuestionUseCase questionUseCase, GetStatisticsUseCase statisticsUseCase, UpdateStatisticsUseCase updateStatisticsUseCase){
+        return new SingleGamePresenter(questionUseCase, statisticsUseCase, updateStatisticsUseCase);
     }
 
-    @Provides @PerActivity UseCase provideGetQuestionUseCase(
+    @Provides @PerActivity GetQuestionUseCase provideGetQuestionUseCase(
             QuestionRepository questionRepository, ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread) {
         return new GetQuestionUseCase(questionRepository, threadExecutor, postExecutionThread);
+    }
+
+    @Provides @PerActivity GetStatisticsUseCase getStatisticsUseCase(
+            StatisticsRepository statisticsRepository, ThreadExecutor threadExecutor,
+            PostExecutionThread postExecutionThread) {
+        return new GetStatisticsUseCase(statisticsRepository, threadExecutor, postExecutionThread);
+    }
+
+    @Provides @PerActivity
+    UpdateStatisticsUseCase updateStatisticsUseCase(
+            StatisticsRepository statisticsRepository, ThreadExecutor threadExecutor,
+            PostExecutionThread postExecutionThread) {
+        return new UpdateStatisticsUseCase(statisticsRepository, threadExecutor, postExecutionThread);
     }
 }

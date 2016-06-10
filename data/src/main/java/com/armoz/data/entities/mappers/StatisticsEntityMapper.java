@@ -17,11 +17,21 @@ public class StatisticsEntityMapper {
         this.questionEntityMapper = questionEntityMapper;
     }
 
-    public Statistics transform(StatisticsEntity statisticsEntity) {
+    public Statistics transformToDomainModel(StatisticsEntity statisticsEntity) {
         Statistics statistics = new Statistics();
-        statistics.setCorrectQuestionList(questionEntityMapper.transform(statisticsEntity.getCorrectQuestionList()));
-        statistics.setQuestionSeenList(questionEntityMapper.transform(statisticsEntity.getQuestionSeenList()));
+        statistics.setId(statisticsEntity.getId());
+        statistics.setCorrectQuestionList(questionEntityMapper.transformToDomainModel(statisticsEntity.getCorrectQuestionList()));
+        statistics.setQuestionSeenList(questionEntityMapper.transformToDomainModel(statisticsEntity.getQuestionSeenList()));
         statistics.setCorrectQuestionsInARow(statisticsEntity.getCorrectQuestionsInARow());
         return statistics;
+    }
+
+    public StatisticsEntity transformToDataModel(Statistics statistics) {
+        StatisticsEntity statisticsEntity = new StatisticsEntity();
+        statisticsEntity.setId(statistics.getId());
+        statisticsEntity.setCorrectQuestionList(questionEntityMapper.transformToDataModel(statistics.getCorrectQuestionList()));
+        statisticsEntity.setQuestionSeenList(questionEntityMapper.transformToDataModel(statistics.getQuestionSeenList()));
+        statisticsEntity.setCorrectQuestionsInARow(statisticsEntity.getCorrectQuestionsInARow());
+        return statisticsEntity;
     }
 }

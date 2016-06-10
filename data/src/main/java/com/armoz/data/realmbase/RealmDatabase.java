@@ -39,8 +39,6 @@ public class RealmDatabase {
             realmConfiguration = new RealmConfiguration.Builder(context).build();
             Realm.setDefaultConfiguration(realmConfiguration);
             initialize();
-            System.out.println("INITIALIZED");
-
         } else {
             throw new IllegalStateException("database already configured");
         }
@@ -51,31 +49,23 @@ public class RealmDatabase {
 
         if (getRealmInstance().where(StatisticsEntity.class).findFirst() == null){
             getRealmInstance().executeTransaction(new Realm.Transaction() {
+
                 @Override
                 public void execute(Realm realm) {
-
-                    System.out.println("HOOOOOOOOLAAAAAAA");
-
                     String json = readJsonFromRawResource(R.raw.questions);
                     Type type = new TypeToken<List<QuestionEntity>>() {}.getType();
                     List<QuestionEntity> questionEntityList = new Gson().fromJson(json, type);
                     realm.copyToRealm(questionEntityList);
 
                     StatisticsEntity statisticsEntity = new StatisticsEntity();
+                    statisticsEntity.setId(0);
                     statisticsEntity.setCorrectQuestionsInARow(0);
                     statisticsEntity.setQuestionSeenList(new RealmList<QuestionEntity>());
                     statisticsEntity.setCorrectQuestionList(new RealmList<QuestionEntity>());
                     realm.copyToRealm(statisticsEntity);
-
                 }
             });
         }
-
-        StatisticsEntity statisticsEntity = getRealmInstance().where(StatisticsEntity.class).findFirst();
-        System.out.println(statisticsEntity);
-
-        QuestionEntity questionEntity = getRealmInstance().where(QuestionEntity.class).findFirst();
-        System.out.println(questionEntity);
     }
 
     public Realm getRealmInstance() {

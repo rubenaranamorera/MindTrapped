@@ -1,6 +1,7 @@
 package com.armoz.data.questionrepository.datasource;
 
 import com.armoz.data.entities.QuestionEntity;
+import com.mindtrapped.exception.NoMoreQuestionsFoundException;
 import com.armoz.data.realmbase.RealmDatabase;
 
 import io.realm.Realm;
@@ -32,6 +33,10 @@ public class RealmQuestionDataStore implements QuestionDataStore {
                     }
 
                     QuestionEntity questionEntity = query.findFirst();
+                    if (questionEntity == null) {
+                        throw new NoMoreQuestionsFoundException();
+                    }
+
                     QuestionEntity questionEntityUnmanaged = realm.copyFromRealm(questionEntity);
 
                     return Observable.just(questionEntityUnmanaged);

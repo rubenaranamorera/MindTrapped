@@ -34,6 +34,4 @@ public class GetUnseenQuestionUseCase extends UseCase {
         this.questionSeenList = questionSeenList;
         super.execute(UseCaseSubscriber);
     }
-
-
 }

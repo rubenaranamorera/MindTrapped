@@ -10,13 +10,42 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.armoz.mindtrapped.presentation.singlegame.activity.SingleGameActivity">
 
+
+    <TextView
+        android:id="@+id/single_game_correct_questions"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/single_game_correct_questions_separator"
+        android:layout_toRightOf="@id/single_game_correct_questions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/" />
+
+    <TextView
+        android:id="@+id/single_game_seen_questions"
+        android:layout_toRightOf="@id/single_game_correct_questions_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/" />
+
+    <TextView
+        android:id="@+id/single_game_questions_in_a_row"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="" />
+
     <TextView
         android:id="@+id/single_game_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Esto sera una pregunta por defecto"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/single_game_questions_in_a_row"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"

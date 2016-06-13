@@ -4,6 +4,7 @@ package com.armoz.mindtrapped.presentation.singlegame.presenter;
 import com.armoz.mindtrapped.presentation.base.PerActivity;
 import com.armoz.mindtrapped.presentation.singlegame.activity.SingleGameActivity;
 import com.fernandocejas.frodo.annotation.RxLogSubscriber;
+import com.mindtrapped.exception.NoMoreQuestionsFoundException;
 import com.mindtrapped.interactor.DefaultSubscriber;
 import com.mindtrapped.interactor.GetUnseenQuestionUseCase;
 import com.mindtrapped.interactor.GetStatisticsUseCase;
@@ -55,15 +56,15 @@ public class SingleGamePresenter {
 
         @Override
         public void onCompleted() {
-            //Todo: hide loading
         }
 
         @Override
         public void onError(Throwable e) {
-            //Todo: show error
-            /*UserListPresenter.this.hideViewLoading();
-            UserListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            UserListPresenter.this.showViewRetry();*/
+            activity.showError(e.getMessage());
+
+            if (e.getClass().equals(NoMoreQuestionsFoundException.class)){
+                activity.restartQuestionStatistics();
+            }
         }
 
         @Override
@@ -78,15 +79,11 @@ public class SingleGamePresenter {
 
         @Override
         public void onCompleted() {
-            //Todo: hide loading
         }
 
         @Override
         public void onError(Throwable e) {
-            //Todo: show error
-            /*UserListPresenter.this.hideViewLoading();
-            UserListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            UserListPresenter.this.showViewRetry();*/
+            activity.showError(e.getMessage());
         }
 
         @Override
@@ -101,15 +98,11 @@ public class SingleGamePresenter {
 
         @Override
         public void onCompleted() {
-            //Todo: hide loading
         }
 
         @Override
         public void onError(Throwable e) {
-            //Todo: show error
-            /*UserListPresenter.this.hideViewLoading();
-            UserListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            UserListPresenter.this.showViewRetry();*/
+            activity.showError(e.getMessage());
         }
 
         @Override

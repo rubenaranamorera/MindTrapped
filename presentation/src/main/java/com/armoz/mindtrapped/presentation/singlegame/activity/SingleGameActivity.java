@@ -31,6 +31,9 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
     @BindView(R.id.single_game_answer_button)
     Button answerButton;
 
+    @BindView(R.id.single_game_skip_button)
+    Button skipButton;
+
     @BindView(R.id.single_game_correct_questions)
     TextView correctQuestionsView;
 
@@ -73,6 +76,7 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
         seenQuestionsView.setText(String.valueOf(presenter.getStatistics().getSeenQuestionSet().size()));
         correctQuestionsInARowView.setText(String.valueOf(presenter.getStatistics().getCorrectQuestionsInARow()));
         answerButton.setEnabled(true);
+        skipButton.setEnabled(true);
     }
 
     @OnClick(R.id.single_game_answer_button)
@@ -91,6 +95,13 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
             correctQuestionsInARowView.setText("0");
             showError(getString(R.string.single_game_wrong_answer));
         }
+    }
+
+    @OnClick(R.id.single_game_skip_button)
+    public void skipQuestion(){
+        responseView.setText("");
+        presenter.updateStatisticsWithSeenQuestion();
+        presenter.loadUnseenQuestion();
     }
 
     private boolean isCorrectAnswer(String answer) {

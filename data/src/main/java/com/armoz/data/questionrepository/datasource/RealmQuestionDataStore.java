@@ -1,14 +1,12 @@
 package com.armoz.data.questionrepository.datasource;
 
 import com.armoz.data.entities.QuestionEntity;
-import com.mindtrapped.exception.NoMoreQuestionsFoundException;
 import com.armoz.data.realmbase.RealmDatabase;
+import com.mindtrapped.exception.NoMoreQuestionsFoundException;
 
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
-import rx.Observable;
-import rx.functions.Func0;
 
 public class RealmQuestionDataStore implements QuestionDataStore {
 
@@ -19,31 +17,19 @@ public class RealmQuestionDataStore implements QuestionDataStore {
     }
 
     @Override
-    public Observable<QuestionEntity> getUnseenQuestionEntity(final RealmList<QuestionEntity> questionEntities) {
+    public QuestionEntity getUnseenQuestionEntity(final RealmList<QuestionEntity> questionEntities) throws NoMoreQuestionsFoundException {
+        Realm realm = realmDatabase.getRealmInstance();
+        RealmQuery<QuestionEntity> query = realm.where(QuestionEntity.class);
+        for (QuestionEntity questionEntity : questionEntities) {
+            query = query.not().equalTo("id", questionEntity.getId());
+        }
 
-        return Observable.defer(new Func0<Observable<QuestionEntity>>() {
-            @Override
-            public Observable<QuestionEntity> call() {
-                try {
-                    Realm realm = realmDatabase.getRealmInstance();
+        QuestionEntity questionEntity = query.findFirst();
+        if (questionEntity == null) {
+            throw new NoMoreQuestionsFoundException();
+        }
+        QuestionEntity questionEntityUnmanaged = realm.copyFromRealm(questionEntity);
 
-                    RealmQuery<QuestionEntity> query = realm.where(QuestionEntity.class);
-                    for (QuestionEntity questionEntity : questionEntities) {
-                        query = query.not().equalTo("id", questionEntity.getId());
-                    }
-
-                    QuestionEntity questionEntity = query.findFirst();
-                    if (questionEntity == null) {
-                        throw new NoMoreQuestionsFoundException();
-                    }
-
-                    QuestionEntity questionEntityUnmanaged = realm.copyFromRealm(questionEntity);
-
-                    return Observable.just(questionEntityUnmanaged);
-                } catch (Exception e) {
-                    return Observable.error(e);
-                }
-            }
-        });
+        return questionEntityUnmanaged;
     }
 }

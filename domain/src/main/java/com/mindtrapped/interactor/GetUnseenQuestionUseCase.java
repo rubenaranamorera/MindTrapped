@@ -6,7 +6,6 @@ import com.mindtrapped.executor.ThreadExecutor;
 import com.mindtrapped.model.Question;
 import com.mindtrapped.repository.QuestionRepository;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -28,7 +27,11 @@ public class GetUnseenQuestionUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return this.questionRepository.getUnseenQuestion(questionSeenList);
+        try {
+            return Observable.just(questionRepository.getUnseenQuestion(questionSeenList));
+        } catch (Exception e) {
+            return Observable.error(e);
+        }
     }
 
     public void execute(Subscriber UseCaseSubscriber, Set<Question> questionSeenList) {

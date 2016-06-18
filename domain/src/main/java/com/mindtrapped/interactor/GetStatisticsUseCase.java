@@ -22,6 +22,6 @@ public class GetStatisticsUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return this.statisticsRepository.getStatistics();
+        return Observable.just(statisticsRepository.getStatistics());
     }
 }

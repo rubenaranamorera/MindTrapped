@@ -30,6 +30,7 @@ public class UpdateStatisticsUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return this.statisticsRepository.updateStatistics(statistics);
+        statisticsRepository.updateStatistics(statistics);
+        return Observable.just(null);
     }
 }

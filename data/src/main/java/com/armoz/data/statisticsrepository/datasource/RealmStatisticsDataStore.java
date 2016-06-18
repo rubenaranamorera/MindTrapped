@@ -4,8 +4,6 @@ import com.armoz.data.entities.StatisticsEntity;
 import com.armoz.data.realmbase.RealmDatabase;
 
 import io.realm.Realm;
-import rx.Observable;
-import rx.functions.Func0;
 
 public class RealmStatisticsDataStore implements StatisticsDataStore {
 
@@ -16,41 +14,19 @@ public class RealmStatisticsDataStore implements StatisticsDataStore {
     }
 
     @Override
-    public Observable<StatisticsEntity> getStatisticsEntity() {
-
-        return Observable.defer(new Func0<Observable<StatisticsEntity>>() {
-            @Override
-            public Observable<StatisticsEntity> call() {
-                try {
-                    Realm realm = realmDatabase.getRealmInstance();
-                    StatisticsEntity statisticsEntity = realm.where(StatisticsEntity.class).findFirst();
-                    StatisticsEntity statisticsEntityUnmanaged = realm.copyFromRealm(statisticsEntity);
-
-                    return Observable.just(statisticsEntityUnmanaged);
-                } catch (Exception e) {
-                    return Observable.error(e);
-                }
-            }
-        });
+    public StatisticsEntity getStatisticsEntity() {
+        Realm realm = realmDatabase.getRealmInstance();
+        StatisticsEntity statisticsEntity = realm.where(StatisticsEntity.class).findFirst();
+        StatisticsEntity statisticsEntityUnmanaged = realm.copyFromRealm(statisticsEntity);
+        return statisticsEntityUnmanaged;
     }
 
-    public Observable<Void> updateStatistics(final StatisticsEntity statisticsEntity) {
-
-        return Observable.defer(new Func0<Observable<Void>>() {
+    public void updateStatistics(final StatisticsEntity statisticsEntity) {
+        Realm realm = realmDatabase.getRealmInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
-            public Observable<Void> call() {
-                try {
-                    Realm realm = realmDatabase.getRealmInstance();
-                    realm.executeTransactionAsync(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            realm.copyToRealmOrUpdate(statisticsEntity);
-                        }
-                    });
-                    return Observable.empty();
-                } catch (Exception e) {
-                    return Observable.error(e);
-                }
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(statisticsEntity);
             }
         });
     }

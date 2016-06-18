@@ -9,9 +9,6 @@ import com.mindtrapped.repository.StatisticsRepository;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import rx.Observable;
-import rx.functions.Func1;
-
 @Singleton
 public class StatisticsDataRepository implements StatisticsRepository {
 
@@ -26,17 +23,13 @@ public class StatisticsDataRepository implements StatisticsRepository {
     }
 
     @Override
-    public Observable<Statistics> getStatistics() {
-        return statisticsDataStoreFactory.create().getStatisticsEntity().map(new Func1<StatisticsEntity, Statistics>() {
-            @Override
-            public Statistics call(StatisticsEntity statisticsEntity) {
-                return statisticsEntityMapper.transformToDomainModel(statisticsEntity);
-            }
-        });
+    public Statistics getStatistics() {
+        StatisticsEntity statisticsEntity = statisticsDataStoreFactory.create().getStatisticsEntity();
+        return statisticsEntityMapper.transformToDomainModel(statisticsEntity);
     }
 
     @Override
-    public Observable<Void> updateStatistics(Statistics statistics) {
-        return statisticsDataStoreFactory.create().updateStatistics(statisticsEntityMapper.transformToDataModel(statistics));
+    public void updateStatistics(Statistics statistics) {
+        statisticsDataStoreFactory.create().updateStatistics(statisticsEntityMapper.transformToDataModel(statistics));
     }
 }

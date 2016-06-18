@@ -1,31 +1,32 @@
 package com.mindtrapped.model;
 
-import java.util.List;
+import java.util.Set;
 
 public class Statistics {
 
     private long id;
 
-    private List<Question> questionSeenList;
+    private Set<Question> seenQuestionSet;
 
-    private List<Question> correctQuestionList;
+    private Set<Question> correctQuestionSet;
 
     private int correctQuestionsInARow;
 
-    public List<Question> getQuestionSeenList() {
-        return questionSeenList;
+
+    public Set<Question> getSeenQuestionSet() {
+        return seenQuestionSet;
     }
 
-    public void setQuestionSeenList(List<Question> questionSeenList) {
-        this.questionSeenList = questionSeenList;
+    public void setSeenQuestionSet(Set<Question> seenQuestionSet) {
+        this.seenQuestionSet = seenQuestionSet;
     }
 
-    public List<Question> getCorrectQuestionList() {
-        return correctQuestionList;
+    public Set<Question> getCorrectQuestionSet() {
+        return correctQuestionSet;
     }
 
-    public void setCorrectQuestionList(List<Question> correctQuestionList) {
-        this.correctQuestionList = correctQuestionList;
+    public void setCorrectQuestionSet(Set<Question> correctQuestionSet) {
+        this.correctQuestionSet = correctQuestionSet;
     }
 
     public int getCorrectQuestionsInARow() {

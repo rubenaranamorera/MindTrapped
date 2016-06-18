@@ -20,8 +20,8 @@ public class StatisticsEntityMapper {
     public Statistics transformToDomainModel(StatisticsEntity statisticsEntity) {
         Statistics statistics = new Statistics();
         statistics.setId(statisticsEntity.getId());
-        statistics.setCorrectQuestionList(questionEntityMapper.transformToDomainModel(statisticsEntity.getCorrectQuestionList()));
-        statistics.setQuestionSeenList(questionEntityMapper.transformToDomainModel(statisticsEntity.getQuestionSeenList()));
+        statistics.setCorrectQuestionSet(questionEntityMapper.transformToDomainModel(statisticsEntity.getCorrectQuestionList()));
+        statistics.setSeenQuestionSet(questionEntityMapper.transformToDomainModel(statisticsEntity.getQuestionSeenList()));
         statistics.setCorrectQuestionsInARow(statisticsEntity.getCorrectQuestionsInARow());
         return statistics;
     }
@@ -29,8 +29,8 @@ public class StatisticsEntityMapper {
     public StatisticsEntity transformToDataModel(Statistics statistics) {
         StatisticsEntity statisticsEntity = new StatisticsEntity();
         statisticsEntity.setId(statistics.getId());
-        statisticsEntity.setCorrectQuestionList(questionEntityMapper.transformToDataModel(statistics.getCorrectQuestionList()));
-        statisticsEntity.setQuestionSeenList(questionEntityMapper.transformToDataModel(statistics.getQuestionSeenList()));
+        statisticsEntity.setCorrectQuestionList(questionEntityMapper.transformToDataModel(statistics.getCorrectQuestionSet()));
+        statisticsEntity.setQuestionSeenList(questionEntityMapper.transformToDataModel(statistics.getSeenQuestionSet()));
         statisticsEntity.setCorrectQuestionsInARow(statisticsEntity.getCorrectQuestionsInARow());
         return statisticsEntity;
     }

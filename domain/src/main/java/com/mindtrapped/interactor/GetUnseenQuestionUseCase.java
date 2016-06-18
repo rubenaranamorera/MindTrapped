@@ -7,6 +7,7 @@ import com.mindtrapped.model.Question;
 import com.mindtrapped.repository.QuestionRepository;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -16,7 +17,7 @@ import rx.Subscriber;
 public class GetUnseenQuestionUseCase extends UseCase {
 
     private final QuestionRepository questionRepository;
-    private List<Question> questionSeenList;
+    private Set<Question> questionSeenList;
 
     @Inject
     public GetUnseenQuestionUseCase(QuestionRepository questionRepository,
@@ -30,7 +31,7 @@ public class GetUnseenQuestionUseCase extends UseCase {
         return this.questionRepository.getUnseenQuestion(questionSeenList);
     }
 
-    public void execute(Subscriber UseCaseSubscriber, List<Question> questionSeenList) {
+    public void execute(Subscriber UseCaseSubscriber, Set<Question> questionSeenList) {
         this.questionSeenList = questionSeenList;
         super.execute(UseCaseSubscriber);
     }

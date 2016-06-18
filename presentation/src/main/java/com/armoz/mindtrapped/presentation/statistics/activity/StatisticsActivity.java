@@ -54,10 +54,10 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     public void onStatisticsLoaded(Statistics statistics) {
-        int seenQuestionsNum = statistics.getQuestionSeenList().size();
+        int seenQuestionsNum = statistics.getSeenQuestionSet().size();
         seenQuestions.setText(Integer.toString(seenQuestionsNum));
 
-        int correctQuestionsNum = statistics.getQuestionSeenList().size();
+        int correctQuestionsNum = statistics.getSeenQuestionSet().size();
         correctQuestions.setText(Integer.toString(correctQuestionsNum));
 
         int correctQuestionsInARowNum =statistics.getCorrectQuestionsInARow();

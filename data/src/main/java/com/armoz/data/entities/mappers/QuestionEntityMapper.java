@@ -3,8 +3,9 @@ package com.armoz.data.entities.mappers;
 import com.armoz.data.entities.QuestionEntity;
 import com.mindtrapped.model.Question;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -27,8 +28,8 @@ public class QuestionEntityMapper {
         return question;
     }
 
-    public List<Question> transformToDomainModel(List<QuestionEntity> questionEntityList){
-        List<Question> questionList = new ArrayList<>();
+    public Set<Question> transformToDomainModel(List<QuestionEntity> questionEntityList){
+        Set<Question> questionList = new HashSet<>();
         for (QuestionEntity questionEntity: questionEntityList){
             questionList.add(transformToDomainModel(questionEntity));
         }
@@ -43,7 +44,7 @@ public class QuestionEntityMapper {
         return questionEntity;
     }
 
-    public RealmList<QuestionEntity> transformToDataModel(List<Question> questionList){
+    public RealmList<QuestionEntity> transformToDataModel(Set<Question> questionList){
         RealmList<QuestionEntity> questionEntityList = new RealmList<>();
         for (Question question: questionList){
             questionEntityList.add(transformToDataModel(question));

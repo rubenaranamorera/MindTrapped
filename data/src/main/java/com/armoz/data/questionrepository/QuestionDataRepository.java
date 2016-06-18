@@ -7,7 +7,7 @@ import com.armoz.data.questionrepository.datasource.QuestionDataStoreFactory;
 import com.mindtrapped.model.Question;
 import com.mindtrapped.repository.QuestionRepository;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -29,7 +29,7 @@ public class QuestionDataRepository implements QuestionRepository {
     }
 
     @Override
-    public Observable<Question> getUnseenQuestion(List<Question> questionSeenList) {
+    public Observable<Question> getUnseenQuestion(Set<Question> questionSeenList) {
         final QuestionDataStore questionDataStore = this.questionDataStoreFactory.create();
         return questionDataStore.getUnseenQuestionEntity(questionEntityMapper.transformToDataModel(questionSeenList)).map(new Func1<QuestionEntity, Question>() {
             @Override

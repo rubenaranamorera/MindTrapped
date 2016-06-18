@@ -14,16 +14,13 @@ import com.armoz.mindtrapped.presentation.singlegame.presenter.SingleGamePresent
 import com.mindtrapped.model.Question;
 import com.mindtrapped.model.Statistics;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SingleGameActivity extends BaseActivity {
+public class SingleGameActivity extends BaseActivity implements SingleGamePresenter.View{
 
     @BindView(R.id.single_game_question)
     TextView questionView;
@@ -46,10 +43,6 @@ public class SingleGameActivity extends BaseActivity {
     @Inject
     SingleGamePresenter presenter;
 
-    private Question question;
-    private Statistics statistics;
-
-
     public static Intent buildIntent(Context context) {
         return new Intent(context, SingleGameActivity.class);
     }
@@ -62,72 +55,46 @@ public class SingleGameActivity extends BaseActivity {
         ButterKnife.bind(this);
         initializeInjector();
 
-        presenter.setActivity(this);
+        presenter.setView(this);
         presenter.loadStatistics();
     }
 
     public void onStatisticsLoaded(Statistics statistics) {
-        this.statistics = statistics;
-        presenter.loadUnseenQuestion(statistics.getQuestionSeenList());
-
-        correctQuestionsView.setText(String.valueOf(statistics.getCorrectQuestionList().size()));
-        seenQuestionsView.setText(String.valueOf(statistics.getQuestionSeenList().size() - 1));
+        presenter.loadUnseenQuestion();
+        correctQuestionsView.setText(String.valueOf(statistics.getCorrectQuestionSet().size()));
+        seenQuestionsView.setText(String.valueOf(statistics.getSeenQuestionSet().size() - 1));
         correctQuestionsInARowView.setText(String.valueOf(statistics.getCorrectQuestionsInARow()));
 
         //TODO: show total lives
     }
 
     public void onQuestionLoaded(Question question) {
-        this.question = question;
         questionView.setText(question.getQuestion());
-        updateStatisticsWithSeenQuestion();
+        seenQuestionsView.setText(String.valueOf(presenter.getStatistics().getSeenQuestionSet().size()));
+        correctQuestionsInARowView.setText(String.valueOf(presenter.getStatistics().getCorrectQuestionsInARow()));
         answerButton.setEnabled(true);
-    }
-
-    private void updateStatisticsWithSeenQuestion() {
-        List<Question> questionSeenList = statistics.getQuestionSeenList();
-        questionSeenList.add(question);
-        statistics.setQuestionSeenList(questionSeenList);
-        presenter.updateStatistics(statistics);
-        seenQuestionsView.setText(String.valueOf(statistics.getQuestionSeenList().size() - 1));
-        correctQuestionsInARowView.setText(String.valueOf(statistics.getCorrectQuestionsInARow()));
     }
 
     @OnClick(R.id.single_game_answer_button)
     public void checkAnswer() {
         String answer = responseView.getText().toString();
         if (isCorrectAnswer(answer)) {
-            updateStatisticsWithCorrectQuestion();
-            question = null;
-            presenter.loadUnseenQuestion(statistics.getQuestionSeenList());
+            presenter.updateStatisticsWithCorrectQuestion();
+            presenter.loadUnseenQuestion();
             answerButton.setEnabled(false);
             responseView.setText("");
+            correctQuestionsView.setText(String.valueOf(presenter.getStatistics().getCorrectQuestionSet().size()));
+            correctQuestionsInARowView.setText(String.valueOf(presenter.getStatistics().getCorrectQuestionsInARow()));
             showConfirmation(getString(R.string.single_game_right_answer));
         } else {
-            updateStatisticsWithMissedQuestion();
+            presenter.updateStatisticsWithMissedQuestion();
+            correctQuestionsInARowView.setText("0");
             showError(getString(R.string.single_game_wrong_answer));
         }
     }
 
-    private void updateStatisticsWithMissedQuestion() {
-        statistics.setCorrectQuestionsInARow(0);
-        presenter.updateStatistics(statistics);
-        correctQuestionsInARowView.setText(String.valueOf(statistics.getCorrectQuestionsInARow()));
-    }
-
-    private void updateStatisticsWithCorrectQuestion() {
-        int questionsInARow = statistics.getCorrectQuestionsInARow() + 1;
-        statistics.setCorrectQuestionsInARow(questionsInARow);
-        List<Question> correctQuestionsList = statistics.getCorrectQuestionList();
-        correctQuestionsList.add(question);
-        statistics.setCorrectQuestionList(correctQuestionsList);
-        presenter.updateStatistics(statistics);
-        correctQuestionsView.setText(String.valueOf(statistics.getCorrectQuestionList().size()));
-        correctQuestionsInARowView.setText(String.valueOf(statistics.getCorrectQuestionsInARow()));
-    }
-
     private boolean isCorrectAnswer(String answer) {
-        return presenter.checkAnswer(answer, question.getAnswer());
+        return presenter.checkAnswer(answer);
     }
 
     private void initializeInjector() {
@@ -136,12 +103,5 @@ public class SingleGameActivity extends BaseActivity {
                 .singleGameModule(new SingleGameModule())
                 .build()
                 .inject(this);
-    }
-
-    public void restartQuestionStatistics() {
-        statistics.setCorrectQuestionList(new ArrayList());
-        statistics.setQuestionSeenList(new ArrayList());
-        presenter.updateStatistics(statistics);
-        onStatisticsLoaded(statistics);
     }
 }

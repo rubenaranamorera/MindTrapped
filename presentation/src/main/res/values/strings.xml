@@ -4,4 +4,6 @@
     <string name="single_game">Single game</string>
     <string name="single_game_wrong_answer">You are wrong... Try Again!</string>
     <string name="single_game_right_answer">Correct! go for the next one ;) </string>
+    <string name="single_game_skip_question">Question skipped succesfully</string>
+    <string name="single_game_question_statistics_reset">There are no more questions, statistics reseted!</string>
 </resources>

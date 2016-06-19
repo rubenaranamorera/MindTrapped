@@ -4,9 +4,10 @@ import com.armoz.mindtrapped.presentation.base.PerActivity;
 import com.armoz.mindtrapped.presentation.singlegame.presenter.SingleGamePresenter;
 import com.mindtrapped.executor.PostExecutionThread;
 import com.mindtrapped.executor.ThreadExecutor;
-import com.mindtrapped.interactor.GetUnseenQuestionUseCase;
-import com.mindtrapped.interactor.GetStatisticsUseCase;
-import com.mindtrapped.interactor.UpdateStatisticsUseCase;
+import com.mindtrapped.interactor.AnswerQuestionUseCase;
+import com.mindtrapped.interactor.LoadSingleGameUseCase;
+import com.mindtrapped.interactor.ResetQuestionStatisticsUseCase;
+import com.mindtrapped.interactor.SkipQuestionUseCase;
 import com.mindtrapped.repository.QuestionRepository;
 import com.mindtrapped.repository.StatisticsRepository;
 
@@ -20,27 +21,47 @@ public class SingleGameModule {
     }
 
     @Provides @PerActivity
-    SingleGamePresenter singleGamePresenter(GetUnseenQuestionUseCase questionUseCase, GetStatisticsUseCase statisticsUseCase, UpdateStatisticsUseCase updateStatisticsUseCase){
-        return new SingleGamePresenter(questionUseCase, statisticsUseCase, updateStatisticsUseCase);
+    SingleGamePresenter singleGamePresenter(
+            LoadSingleGameUseCase loadSingleGameUseCase,
+            AnswerQuestionUseCase answerQuestionUseCase,
+            SkipQuestionUseCase skipQuestionUseCase,
+            ResetQuestionStatisticsUseCase resetQuestionStatisticsUseCase){
+        return new SingleGamePresenter(loadSingleGameUseCase, answerQuestionUseCase, skipQuestionUseCase, resetQuestionStatisticsUseCase);
     }
 
     @Provides @PerActivity
-    GetUnseenQuestionUseCase provideGetQuestionUseCase(
-            QuestionRepository questionRepository, ThreadExecutor threadExecutor,
+    LoadSingleGameUseCase loadSingleGameUseCase(
+            QuestionRepository questionRepository,
+            StatisticsRepository statisticsRepository,
+            ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread) {
-        return new GetUnseenQuestionUseCase(questionRepository, threadExecutor, postExecutionThread);
-    }
-
-    @Provides @PerActivity GetStatisticsUseCase getStatisticsUseCase(
-            StatisticsRepository statisticsRepository, ThreadExecutor threadExecutor,
-            PostExecutionThread postExecutionThread) {
-        return new GetStatisticsUseCase(statisticsRepository, threadExecutor, postExecutionThread);
+        return new LoadSingleGameUseCase(statisticsRepository, questionRepository, threadExecutor, postExecutionThread);
     }
 
     @Provides @PerActivity
-    UpdateStatisticsUseCase updateStatisticsUseCase(
-            StatisticsRepository statisticsRepository, ThreadExecutor threadExecutor,
+    AnswerQuestionUseCase answerQuestionUseCase(
+            QuestionRepository questionRepository,
+            StatisticsRepository statisticsRepository,
+            ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread) {
-        return new UpdateStatisticsUseCase(statisticsRepository, threadExecutor, postExecutionThread);
+        return new AnswerQuestionUseCase(statisticsRepository, questionRepository, threadExecutor, postExecutionThread);
+    }
+
+    @Provides @PerActivity
+    SkipQuestionUseCase skipQuestionUseCase(
+            QuestionRepository questionRepository,
+            StatisticsRepository statisticsRepository,
+            ThreadExecutor threadExecutor,
+            PostExecutionThread postExecutionThread) {
+        return new SkipQuestionUseCase(statisticsRepository, questionRepository, threadExecutor, postExecutionThread);
+    }
+
+    @Provides @PerActivity
+    ResetQuestionStatisticsUseCase resetQuestionStatisticsUseCase(
+            QuestionRepository questionRepository,
+            StatisticsRepository statisticsRepository,
+            ThreadExecutor threadExecutor,
+            PostExecutionThread postExecutionThread) {
+        return new ResetQuestionStatisticsUseCase(statisticsRepository, questionRepository, threadExecutor, postExecutionThread);
     }
 }

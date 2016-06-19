@@ -59,53 +59,62 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
         initializeInjector();
 
         presenter.setView(this);
-        presenter.loadStatistics();
+        presenter.loadInitialData();
     }
 
-    public void onStatisticsLoaded(Statistics statistics) {
-        presenter.loadUnseenQuestion();
+    @Override
+    public void onQuestionStatisticsLoaded(Question question, Statistics statistics) {
         correctQuestionsView.setText(String.valueOf(statistics.getCorrectQuestionSet().size()));
-        seenQuestionsView.setText(String.valueOf(statistics.getSeenQuestionSet().size() - 1));
+        seenQuestionsView.setText(String.valueOf(statistics.getSeenQuestionSet().size()));
         correctQuestionsInARowView.setText(String.valueOf(statistics.getCorrectQuestionsInARow()));
 
-        //TODO: show total lives
+        questionView.setText(question.getQuestion());
+
+        enableButtons();
     }
 
-    public void onQuestionLoaded(Question question) {
-        questionView.setText(question.getQuestion());
-        seenQuestionsView.setText(String.valueOf(presenter.getStatistics().getSeenQuestionSet().size()));
-        correctQuestionsInARowView.setText(String.valueOf(presenter.getStatistics().getCorrectQuestionsInARow()));
+    @Override
+    public void showOk() {
+        showConfirmation(getString(R.string.single_game_right_answer));
+    }
+
+    @Override
+    public void showMiss() {
+        showError(getString(R.string.single_game_wrong_answer));
+    }
+
+    @Override
+    public void showSkip() {
+        showAlert(getString(R.string.single_game_skip_question));
+    }
+
+    @Override
+    public void showReset() {
+        showAlert(getString(R.string.single_game_question_statistics_reset));
+    }
+
+    private void enableButtons() {
         answerButton.setEnabled(true);
         skipButton.setEnabled(true);
+    }
+
+    private void disableButtons() {
+        answerButton.setEnabled(false);
+        skipButton.setEnabled(false);
     }
 
     @OnClick(R.id.single_game_answer_button)
     public void checkAnswer() {
         String answer = responseView.getText().toString();
-        if (isCorrectAnswer(answer)) {
-            presenter.updateStatisticsWithCorrectQuestion();
-            presenter.loadUnseenQuestion();
-            answerButton.setEnabled(false);
-            responseView.setText("");
-            correctQuestionsView.setText(String.valueOf(presenter.getStatistics().getCorrectQuestionSet().size()));
-            correctQuestionsInARowView.setText(String.valueOf(presenter.getStatistics().getCorrectQuestionsInARow()));
-            showConfirmation(getString(R.string.single_game_right_answer));
-        } else {
-            presenter.updateStatisticsWithMissedQuestion();
-            correctQuestionsInARowView.setText("0");
-            showError(getString(R.string.single_game_wrong_answer));
-        }
+        disableButtons();
+        presenter.checkAnswer(answer);
     }
 
     @OnClick(R.id.single_game_skip_button)
     public void skipQuestion(){
         responseView.setText("");
-        presenter.updateStatisticsWithSeenQuestion();
-        presenter.loadUnseenQuestion();
-    }
-
-    private boolean isCorrectAnswer(String answer) {
-        return presenter.checkAnswer(answer);
+        disableButtons();
+        presenter.skipQuestion();
     }
 
     private void initializeInjector() {

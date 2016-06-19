@@ -38,6 +38,10 @@ public abstract class BaseActivity extends Activity {
         showSnackbar(message, Color.GREEN);
     }
 
+    public void showAlert(String message){
+        showSnackbar(message, Color.YELLOW);
+    }
+
     private void showSnackbar(String message, int green) {
         Snackbar snackbar = Snackbar
                 .make(view, message, Snackbar.LENGTH_LONG);

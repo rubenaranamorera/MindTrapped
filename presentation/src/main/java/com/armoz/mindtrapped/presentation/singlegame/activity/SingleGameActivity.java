@@ -11,6 +11,7 @@ import com.armoz.mindtrapped.presentation.base.activity.BaseActivity;
 import com.armoz.mindtrapped.presentation.singlegame.component.DaggerSingleGameComponent;
 import com.armoz.mindtrapped.presentation.singlegame.module.SingleGameModule;
 import com.armoz.mindtrapped.presentation.singlegame.presenter.SingleGamePresenter;
+import com.mindtrapped.model.AnswerEnum;
 import com.mindtrapped.model.Question;
 import com.mindtrapped.model.Statistics;
 
@@ -25,11 +26,17 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
     @BindView(R.id.single_game_question)
     TextView questionView;
 
-    @BindView(R.id.single_game_response)
-    TextView responseView;
+    @BindView(R.id.single_game_answerA_button)
+    Button answerAButton;
 
-    @BindView(R.id.single_game_answer_button)
-    Button answerButton;
+    @BindView(R.id.single_game_answerB_button)
+    Button answerBButton;
+
+    @BindView(R.id.single_game_answerC_button)
+    Button answerCButton;
+
+    @BindView(R.id.single_game_answerD_button)
+    Button answerDButton;
 
     @BindView(R.id.single_game_skip_button)
     Button skipButton;
@@ -69,6 +76,10 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
         correctQuestionsInARowView.setText(String.valueOf(statistics.getCorrectQuestionsInARow()));
 
         questionView.setText(question.getQuestion());
+        answerAButton.setText(question.getAnswerA());
+        answerBButton.setText(question.getAnswerB());
+        answerCButton.setText(question.getAnswerC());
+        answerDButton.setText(question.getAnswerD());
 
         enableButtons();
     }
@@ -94,25 +105,46 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
     }
 
     private void enableButtons() {
-        answerButton.setEnabled(true);
+        answerAButton.setEnabled(true);
+        answerBButton.setEnabled(true);
+        answerCButton.setEnabled(true);
+        answerDButton.setEnabled(true);
         skipButton.setEnabled(true);
     }
 
     private void disableButtons() {
-        answerButton.setEnabled(false);
+        answerAButton.setEnabled(false);
+        answerBButton.setEnabled(false);
+        answerCButton.setEnabled(false);
+        answerDButton.setEnabled(false);
         skipButton.setEnabled(false);
     }
 
-    @OnClick(R.id.single_game_answer_button)
-    public void checkAnswer() {
-        String answer = responseView.getText().toString();
+    @OnClick(R.id.single_game_answerA_button)
+    public void checkAnswerA() {
         disableButtons();
-        presenter.checkAnswer(answer);
+        presenter.checkAnswer(AnswerEnum.A);
     }
 
+    @OnClick(R.id.single_game_answerB_button)
+    public void checkAnswerB() {
+        disableButtons();
+        presenter.checkAnswer(AnswerEnum.B);
+    }
+
+    @OnClick(R.id.single_game_answerC_button)
+    public void checkAnswerC() {
+        disableButtons();
+        presenter.checkAnswer(AnswerEnum.C);
+    }
+
+    @OnClick(R.id.single_game_answerD_button)
+    public void checkAnswerD() {
+        disableButtons();
+        presenter.checkAnswer(AnswerEnum.D);
+    }
     @OnClick(R.id.single_game_skip_button)
     public void skipQuestion(){
-        responseView.setText("");
         disableButtons();
         presenter.skipQuestion();
     }

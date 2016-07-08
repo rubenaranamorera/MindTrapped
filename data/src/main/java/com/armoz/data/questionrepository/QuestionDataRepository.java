@@ -1,9 +1,14 @@
 package com.armoz.data.questionrepository;
 
+import android.content.Context;
+
+import com.armoz.data.entities.QuestionContentEntity;
 import com.armoz.data.entities.QuestionEntity;
 import com.armoz.data.entities.mappers.QuestionEntityMapper;
-import com.armoz.data.questionrepository.datasource.QuestionDataStore;
-import com.armoz.data.questionrepository.datasource.QuestionDataStoreFactory;
+import com.armoz.data.questionrepository.datasource.Question.QuestionDataStore;
+import com.armoz.data.questionrepository.datasource.Question.QuestionDataStoreFactory;
+import com.armoz.data.questionrepository.datasource.QuestionContent.QuestionContentDataStore;
+import com.armoz.data.questionrepository.datasource.QuestionContent.QuestionContentDataStoreFactory;
 import com.mindtrapped.exception.NoMoreQuestionsFoundException;
 import com.mindtrapped.model.Question;
 import com.mindtrapped.repository.QuestionRepository;
@@ -16,20 +21,32 @@ import javax.inject.Singleton;
 @Singleton
 public class QuestionDataRepository implements QuestionRepository {
 
+    private Context context;
+
     private final QuestionDataStoreFactory questionDataStoreFactory;
+    private final QuestionContentDataStoreFactory questionContentDataStoreFactory;
+
     private final QuestionEntityMapper questionEntityMapper;
 
     @Inject
-    public QuestionDataRepository(QuestionDataStoreFactory dataStoreFactory,
+    public QuestionDataRepository(Context context,
+                                  QuestionDataStoreFactory questionDataStoreFactory,
+                                  QuestionContentDataStoreFactory questionContentDataStoreFactory,
                                   QuestionEntityMapper questionEntityMapper) {
-        this.questionDataStoreFactory = dataStoreFactory;
+        this.context = context;
+        this.questionDataStoreFactory = questionDataStoreFactory;
+        this.questionContentDataStoreFactory = questionContentDataStoreFactory;
         this.questionEntityMapper = questionEntityMapper;
     }
 
     @Override
     public Question getUnseenQuestion(Set<Question> questionSeenList) throws NoMoreQuestionsFoundException {
         final QuestionDataStore questionDataStore = this.questionDataStoreFactory.create();
+        final QuestionContentDataStore questionContentDataStore = this.questionContentDataStoreFactory.create(context);
+
         QuestionEntity questionEntity = questionDataStore.getUnseenQuestionEntity(questionEntityMapper.transformToDataModel(questionSeenList));
-        return questionEntityMapper.transformToDomainModel(questionEntity);
+        QuestionContentEntity questionContentEntity = questionContentDataStore.getQuestionContent(questionEntity.getId());
+
+        return questionEntityMapper.transformToDomainModel(questionEntity, questionContentEntity);
     }
 }

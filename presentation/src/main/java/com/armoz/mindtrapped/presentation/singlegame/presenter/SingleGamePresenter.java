@@ -8,6 +8,7 @@ import com.mindtrapped.interactor.DefaultSubscriber;
 import com.mindtrapped.interactor.LoadSingleGameUseCase;
 import com.mindtrapped.interactor.ResetQuestionStatisticsUseCase;
 import com.mindtrapped.interactor.SkipQuestionUseCase;
+import com.mindtrapped.model.AnswerEnum;
 import com.mindtrapped.model.Question;
 import com.mindtrapped.model.QuestionStatistics;
 import com.mindtrapped.model.QuestionStatus;
@@ -60,7 +61,7 @@ public class SingleGamePresenter {
         loadSingleGameUseCase.execute(new QuestionStatisticsSubscriber());
     }
 
-    public void checkAnswer(String userAnswer) {
+    public void checkAnswer(AnswerEnum userAnswer) {
         answerQuestionUseCase.execute(new QuestionStatisticsSubscriber(), question, statistics, userAnswer);
     }
 

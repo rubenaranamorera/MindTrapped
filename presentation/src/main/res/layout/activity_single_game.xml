@@ -4,17 +4,14 @@
     android:id="@+id/single_game_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.armoz.mindtrapped.presentation.singlegame.activity.SingleGameActivity">
-
+    android:padding="@dimen/padding_l"
+    tools:context="com.armoz.mindtrapped.presentation.singlegame.activity.SingleGameActivity"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/single_game_correct_questions"
         android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="" />
 
@@ -39,36 +36,89 @@
         android:layout_height="wrap_content"
         android:text="" />
 
-    <TextView
-        android:id="@+id/single_game_question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Esto sera una pregunta por defecto"
+    <LinearLayout
+        android:id="@+id/hola"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/single_game_questions_in_a_row"
+        android:layout_above="@+id/single_game_skip_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/single_game_response"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/single_game_question"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="56dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:layout_marginBottom="@dimen/margin_m"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/single_game_answer_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Answer"
-        android:layout_below="@+id/single_game_response"
-        android:layout_centerHorizontal="true"
-        android:enabled="false"/>
+            <TextView
+                android:id="@+id/single_game_question"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Esto sera una pregunta por defecto"
+                android:layout_below="@+id/single_game_questions_in_a_row"
+                android:gravity="center"
+                android:padding="@dimen/padding_m"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/margin_m">
+
+            <Button
+                android:id="@+id/single_game_answerA_button"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/margin_s"
+                android:enabled="false"/>
+
+            <Button
+                android:id="@+id/single_game_answerB_button"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_s"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_m"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/single_game_answerC_button"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/margin_s"
+                android:enabled="false"/>
+
+            <Button
+                android:id="@+id/single_game_answerD_button"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_s"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/single_game_skip_button"
@@ -77,6 +127,7 @@
         android:text="Skip question"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin_xl"
         android:enabled="false"/>
 
 </RelativeLayout>

@@ -1,17 +1,32 @@
 [
   {
     "id": 1,
-    "question": "QUESTION1 -> Answer = 1",
-    "answer": "1"
+    "questionType": "MATH",
+    "question": "2+2=",
+    "answerA": "4",
+    "answerB": "1",
+    "answerC": "2",
+    "answerD": "6",
+    "correctAnswer": "A"
   },
   {
     "id": 2,
-    "question": "QUESTION2 -> Answer = 2",
-    "answer": "2"
+    "questionType": "MATH",
+    "question": "2+5=",
+    "answerA": "4",
+    "answerB": "7",
+    "answerC": "2",
+    "answerD": "6",
+    "correctAnswer": "B"
   },
   {
     "id": 3,
-    "question": "QUESTION3 -> Answer = 3",
-    "answer": "3"
+    "questionType": "MATH",
+    "question": "3+2=",
+    "answerA": "4",
+    "answerB": "1",
+    "answerC": "5",
+    "answerD": "6",
+    "correctAnswer": "C"
   }
 ]

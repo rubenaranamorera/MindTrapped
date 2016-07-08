@@ -1,7 +1,9 @@
 package com.armoz.data.entities.mappers;
 
+import com.armoz.data.entities.QuestionContentEntity;
 import com.armoz.data.entities.QuestionEntity;
 import com.mindtrapped.model.Question;
+import com.mindtrapped.model.QuestionTypeEnum;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,11 +22,23 @@ public class QuestionEntityMapper {
     public QuestionEntityMapper() {
     }
 
+    public Question transformToDomainModel(QuestionEntity questionEntity, QuestionContentEntity questionContentEntity) {
+        Question question = new Question();
+        question.setId(questionEntity.getId());
+        question.setQuestionType(getQuestionTypeEnum(questionEntity.getQuestionType()));
+        question.setQuestion(questionContentEntity.getQuestion());
+        question.setAnswerA(questionContentEntity.getAnswerA());
+        question.setAnswerB(questionContentEntity.getAnswerB());
+        question.setAnswerC(questionContentEntity.getAnswerC());
+        question.setAnswerD(questionContentEntity.getAnswerD());
+        question.setCorrectAnswer(questionContentEntity.getCorrectAnswer());
+        return question;
+    }
+
     public Question transformToDomainModel(QuestionEntity questionEntity) {
         Question question = new Question();
         question.setId(questionEntity.getId());
-        question.setAnswer(questionEntity.getAnswer());
-        question.setQuestion(questionEntity.getQuestion());
+        question.setQuestionType(getQuestionTypeEnum(questionEntity.getQuestionType()));
         return question;
     }
 
@@ -39,8 +53,7 @@ public class QuestionEntityMapper {
     public QuestionEntity transformToDataModel(Question question) {
         QuestionEntity questionEntity = new QuestionEntity();
         questionEntity.setId(question.getId());
-        questionEntity.setAnswer(question.getAnswer());
-        questionEntity.setQuestion(question.getQuestion());
+        questionEntity.setQuestionType(question.getQuestionType().toString());
         return questionEntity;
     }
 
@@ -52,6 +65,19 @@ public class QuestionEntityMapper {
         return questionEntityList;
     }
 
+
+    private QuestionTypeEnum getQuestionTypeEnum(String type){
+        if (QuestionTypeEnum.GENERAL.toString().equals(type)){
+            return QuestionTypeEnum.GENERAL;
+        }
+        if (QuestionTypeEnum.MATH.toString().equals(type)){
+            return QuestionTypeEnum.MATH;
+        }
+        if (QuestionTypeEnum.LOGIC.toString().equals(type)){
+            return QuestionTypeEnum.LOGIC;
+        }
+        return null;
+    }
 
 
 

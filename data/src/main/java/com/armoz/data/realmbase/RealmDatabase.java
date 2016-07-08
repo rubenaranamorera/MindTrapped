@@ -5,12 +5,10 @@ import android.content.Context;
 import com.armoz.data.R;
 import com.armoz.data.entities.QuestionEntity;
 import com.armoz.data.entities.StatisticsEntity;
+import com.armoz.data.utils.JsonUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -45,14 +43,12 @@ public class RealmDatabase {
     }
 
     private void initialize() {
-
-
         if (getRealmInstance().where(StatisticsEntity.class).findFirst() == null){
             getRealmInstance().executeTransaction(new Realm.Transaction() {
 
                 @Override
                 public void execute(Realm realm) {
-                    String json = readJsonFromRawResource(R.raw.questions);
+                    String json = JsonUtils.readJsonFromRawResource(context, R.raw.questions);
                     Type type = new TypeToken<List<QuestionEntity>>() {}.getType();
                     List<QuestionEntity> questionEntityList = new Gson().fromJson(json, type);
                     realm.copyToRealm(questionEntityList);
@@ -70,21 +66,5 @@ public class RealmDatabase {
 
     public Realm getRealmInstance() {
         return Realm.getDefaultInstance();
-    }
-
-    private String readJsonFromRawResource(int rawResourceId) {
-        try {
-            InputStream is = context.getResources().openRawResource(rawResourceId);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder out = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                out.append(line);
-            }
-            System.out.println(out.toString());
-            return out.toString();
-        } catch (Exception e) {
-            throw new IllegalStateException("Error reading from raw fileId " + rawResourceId);
-        }
     }
 }

@@ -1,10 +1,10 @@
-package com.mindtrapped.model;
+package com.armoz.data.entities;
 
-public class Question {
+import com.mindtrapped.model.AnswerEnum;
+
+public class QuestionContentEntity {
 
     private int id;
-
-    private QuestionTypeEnum questionType;
 
     private String question;
 
@@ -15,20 +15,17 @@ public class Question {
 
     private AnswerEnum correctAnswer;
 
+
+    public QuestionContentEntity() {
+        //empty
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public QuestionTypeEnum getQuestionType() {
-        return questionType;
-    }
-
-    public void setQuestionType(QuestionTypeEnum questionType) {
-        this.questionType = questionType;
     }
 
     public String getQuestion() {

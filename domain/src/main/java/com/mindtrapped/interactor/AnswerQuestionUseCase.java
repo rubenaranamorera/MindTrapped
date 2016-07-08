@@ -4,6 +4,7 @@ package com.mindtrapped.interactor;
 import com.mindtrapped.exception.NoMoreQuestionsFoundException;
 import com.mindtrapped.executor.PostExecutionThread;
 import com.mindtrapped.executor.ThreadExecutor;
+import com.mindtrapped.model.AnswerEnum;
 import com.mindtrapped.model.Question;
 import com.mindtrapped.model.QuestionStatistics;
 import com.mindtrapped.model.QuestionStatus;
@@ -25,7 +26,7 @@ public class AnswerQuestionUseCase extends UseCase {
 
     private Question question;
     private Statistics statistics;
-    private String userAnswer;
+    private AnswerEnum userAnswer;
 
     @Inject
     public AnswerQuestionUseCase(StatisticsRepository statisticsRepository, QuestionRepository questionRepository,
@@ -35,7 +36,7 @@ public class AnswerQuestionUseCase extends UseCase {
         this.questionRepository = questionRepository;
     }
 
-    public void execute(Subscriber subscriber, Question question, Statistics statistics, String userAnswer) {
+    public void execute(Subscriber subscriber, Question question, Statistics statistics, AnswerEnum userAnswer) {
         this.question = question;
         this.statistics = statistics;
         this.userAnswer = userAnswer;
@@ -67,8 +68,8 @@ public class AnswerQuestionUseCase extends UseCase {
         return Observable.just(questionStatistics);
     }
 
-    private boolean isCorrectAnswer(String userAnswer) {
-        return userAnswer.equals(question.getAnswer());
+    private boolean isCorrectAnswer(AnswerEnum userAnswer) {
+        return userAnswer.equals(question.getCorrectAnswer());
     }
 
     public void updateStatisticsWithCorrectQuestion() {

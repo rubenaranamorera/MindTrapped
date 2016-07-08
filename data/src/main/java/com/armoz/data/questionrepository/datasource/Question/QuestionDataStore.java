@@ -1,4 +1,4 @@
-package com.armoz.data.questionrepository.datasource;
+package com.armoz.data.questionrepository.datasource.Question;
 
 import com.armoz.data.entities.QuestionEntity;
 import com.mindtrapped.exception.NoMoreQuestionsFoundException;

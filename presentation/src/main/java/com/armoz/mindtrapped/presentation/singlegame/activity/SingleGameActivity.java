@@ -3,7 +3,9 @@ package com.armoz.mindtrapped.presentation.singlegame.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.armoz.mindtrapped.R;
@@ -50,8 +52,13 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
     @BindView(R.id.single_game_questions_in_a_row)
     TextView correctQuestionsInARowView;
 
+    @BindView(R.id.single_game_progress_bar)
+    ProgressBar progressBar;
+
     @Inject
     SingleGamePresenter presenter;
+
+    CountDownTimer countDownTimer;
 
     public static Intent buildIntent(Context context) {
         return new Intent(context, SingleGameActivity.class);
@@ -82,6 +89,24 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
         answerDButton.setText(question.getAnswerD());
 
         enableButtons();
+        resetProgressBar();
+    }
+
+    private void resetProgressBar() {
+        progressBar.setProgress(1000);
+        countDownTimer = new CountDownTimer(10000,10) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                progressBar.setProgress((int)(millisUntilFinished/10));
+            }
+
+            @Override
+            public void onFinish() {
+                showSkip();
+            }
+        };
+        countDownTimer.start();
     }
 
     @Override

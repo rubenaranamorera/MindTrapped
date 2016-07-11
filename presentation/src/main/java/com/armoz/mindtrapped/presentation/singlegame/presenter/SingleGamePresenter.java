@@ -1,6 +1,8 @@
 
 package com.armoz.mindtrapped.presentation.singlegame.presenter;
 
+import android.os.CountDownTimer;
+
 import com.armoz.mindtrapped.presentation.base.PerActivity;
 import com.fernandocejas.frodo.annotation.RxLogSubscriber;
 import com.mindtrapped.interactor.AnswerQuestionUseCase;
@@ -17,6 +19,10 @@ import com.mindtrapped.model.Statistics;
 @PerActivity
 public class SingleGamePresenter {
 
+    private static final int DEFAULT_TIME = 60000;
+    public static final int MISSED_QUESTION_PENALTY_TIME = -2000;
+    public static final int CORRECT_QUESTION_REWARD_TIME = 5000;
+
     private View view;
 
     private final LoadSingleGameUseCase loadSingleGameUseCase;
@@ -26,6 +32,10 @@ public class SingleGamePresenter {
 
     private Question question;
     private Statistics statistics;
+
+    private CountDownTimer countDownTimer;
+    int timeToAdd = 0;
+
 
     public SingleGamePresenter(LoadSingleGameUseCase loadSingleGameUseCase,
                                AnswerQuestionUseCase answerQuestionUseCase,
@@ -74,6 +84,27 @@ public class SingleGamePresenter {
         resetQuestionStatisticsUseCase.execute(new QuestionStatisticsSubscriber(), statistics);
     }
 
+    private void startTimer(int timeInMillis) {
+        timeToAdd = 0;
+
+        countDownTimer = new CountDownTimer(timeInMillis,10) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                view.setProgressBarProgress((int)millisUntilFinished);
+                if(timeToAdd != 0){
+                    countDownTimer.cancel();
+                    startTimer(Math.min((int) millisUntilFinished + timeToAdd, DEFAULT_TIME));
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                //showSkip();
+            }
+        };
+        countDownTimer.start();
+    }
+
     @RxLogSubscriber
     private final class QuestionStatisticsSubscriber extends DefaultSubscriber<QuestionStatistics> {
 
@@ -84,23 +115,29 @@ public class SingleGamePresenter {
         @Override
         public void onNext(QuestionStatistics questionStatistics) {
 
-            if (questionStatistics.getQuestionStatus() == QuestionStatus.MISSED){
-                view.showMiss();
-            } else if (questionStatistics.getQuestionStatus() == QuestionStatus.OK){
-                view.showOk();
-            } else if (questionStatistics.getQuestionStatus() == QuestionStatus.SKIPPED){
-                view.showSkip();
-            }
-            if (questionStatistics.isResetQuestions()) {
-                resetQuestionStatistics();
-                return;
-            }
-
             setQuestion(questionStatistics.getQuestion());
             setStatistics(questionStatistics.getStatistics());
             view.onQuestionStatisticsLoaded(question, statistics);
-        }
 
+            if (questionStatistics.getQuestionStatus() == QuestionStatus.MISSED){
+                view.showMiss();
+                timeToAdd = MISSED_QUESTION_PENALTY_TIME;
+                return;
+            } else if (questionStatistics.getQuestionStatus() == QuestionStatus.OK){
+                view.showOk();
+                timeToAdd = CORRECT_QUESTION_REWARD_TIME;
+                return;
+            } else if (questionStatistics.getQuestionStatus() == QuestionStatus.SKIPPED){
+                view.showSkip();
+                return;
+            }
+
+            startTimer(DEFAULT_TIME);
+            /*if (questionStatistics.isResetQuestions()) {
+                resetQuestionStatistics();
+                return;
+            }*/
+        }
     }
 
     public interface View {
@@ -114,5 +151,7 @@ public class SingleGamePresenter {
         void showSkip();
 
         void showReset();
+
+        void setProgressBarProgress(int progress);
     }
 }

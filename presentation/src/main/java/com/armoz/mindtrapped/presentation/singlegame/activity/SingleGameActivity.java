@@ -3,7 +3,6 @@ package com.armoz.mindtrapped.presentation.singlegame.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -58,8 +57,6 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
     @Inject
     SingleGamePresenter presenter;
 
-    CountDownTimer countDownTimer;
-
     public static Intent buildIntent(Context context) {
         return new Intent(context, SingleGameActivity.class);
     }
@@ -73,6 +70,7 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
         initializeInjector();
 
         presenter.setView(this);
+        progressBar.setProgress(60000);
         presenter.loadInitialData();
     }
 
@@ -89,24 +87,6 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
         answerDButton.setText(question.getAnswerD());
 
         enableButtons();
-        resetProgressBar();
-    }
-
-    private void resetProgressBar() {
-        progressBar.setProgress(1000);
-        countDownTimer = new CountDownTimer(10000,10) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                progressBar.setProgress((int)(millisUntilFinished/10));
-            }
-
-            @Override
-            public void onFinish() {
-                showSkip();
-            }
-        };
-        countDownTimer.start();
     }
 
     @Override
@@ -127,6 +107,11 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
     @Override
     public void showReset() {
         showAlert(getString(R.string.single_game_question_statistics_reset));
+    }
+
+    @Override
+    public void setProgressBarProgress(int progress) {
+        progressBar.setProgress(progress);
     }
 
     private void enableButtons() {

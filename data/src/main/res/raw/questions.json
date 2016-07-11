@@ -28,5 +28,75 @@
     "answerC": "5",
     "answerD": "6",
     "correctAnswer": "C"
+  },
+  {
+    "id": 4,
+    "questionType": "MATH",
+    "question": "3+7=",
+    "answerA": "4",
+    "answerB": "10",
+    "answerC": "5",
+    "answerD": "6",
+    "correctAnswer": "B"
+  },
+  {
+    "id": 5,
+    "questionType": "MATH",
+    "question": "2*3=",
+    "answerA": "4",
+    "answerB": "1",
+    "answerC": "5",
+    "answerD": "6",
+    "correctAnswer": "D"
+  },
+  {
+    "id": 6,
+    "questionType": "MATH",
+    "question": "4/2=",
+    "answerA": "4",
+    "answerB": "1",
+    "answerC": "2",
+    "answerD": "6",
+    "correctAnswer": "C"
+  },
+  {
+    "id": 7,
+    "questionType": "MATH",
+    "question": "3+3=",
+    "answerA": "9",
+    "answerB": "1",
+    "answerC": "5",
+    "answerD": "6",
+    "correctAnswer": "A"
+  },
+  {
+    "id": 8,
+    "questionType": "MATH",
+    "question": "4*0=",
+    "answerA": "4",
+    "answerB": "1",
+    "answerC": "0",
+    "answerD": "6",
+    "correctAnswer": "C"
+  },
+  {
+    "id": 9,
+    "questionType": "MATH",
+    "question": "1*8=",
+    "answerA": "4",
+    "answerB": "8",
+    "answerC": "5",
+    "answerD": "6",
+    "correctAnswer": "B"
+  },
+  {
+    "id": 10,
+    "questionType": "MATH",
+    "question": "3+8=",
+    "answerA": "4",
+    "answerB": "11",
+    "answerC": "5",
+    "answerD": "6",
+    "correctAnswer": "B"
   }
 ]

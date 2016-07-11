@@ -50,16 +50,15 @@ public class AnswerQuestionUseCase extends UseCase {
         if (isCorrectAnswer(userAnswer)) {
             updateStatisticsWithCorrectQuestion();
             questionStatistics.setQuestionStatus(QuestionStatus.OK);
-
-            try {
-                question = questionRepository.getUnseenQuestion(statistics.getSeenQuestionSet());
-            } catch (NoMoreQuestionsFoundException e) {
-                questionStatistics.setResetQuestions(true);
-            }
-
         } else {
             updateStatisticsWithMissedQuestion();
             questionStatistics.setQuestionStatus(QuestionStatus.MISSED);
+        }
+
+        try {
+            question = questionRepository.getUnseenQuestion(statistics.getSeenQuestionSet());
+        } catch (NoMoreQuestionsFoundException e) {
+            questionStatistics.setResetQuestions(true);
         }
 
         questionStatistics.setQuestion(question);
@@ -97,6 +96,4 @@ public class AnswerQuestionUseCase extends UseCase {
         questionSeenList.add(question);
         statistics.setSeenQuestionSet(questionSeenList);
     }
-
-
 }

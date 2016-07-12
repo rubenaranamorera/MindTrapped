@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.armoz.mindtrapped.R;
 import com.armoz.mindtrapped.presentation.base.activity.BaseActivity;
+import com.armoz.mindtrapped.presentation.choosegame.activity.ChooseGameActivity;
 import com.armoz.mindtrapped.presentation.singlegame.component.DaggerSingleGameComponent;
 import com.armoz.mindtrapped.presentation.singlegame.module.SingleGameModule;
 import com.armoz.mindtrapped.presentation.singlegame.presenter.SingleGamePresenter;
@@ -112,6 +113,12 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
     @Override
     public void setProgressBarProgress(int progress) {
         progressBar.setProgress(progress);
+    }
+
+    @Override
+    public void goToChooseGame() {
+        Intent intent = ChooseGameActivity.buildIntent(this);
+        this.startActivity(intent);
     }
 
     private void enableButtons() {

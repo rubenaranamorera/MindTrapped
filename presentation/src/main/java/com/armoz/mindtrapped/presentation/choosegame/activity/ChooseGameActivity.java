@@ -1,5 +1,6 @@
 package com.armoz.mindtrapped.presentation.choosegame.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -19,6 +20,10 @@ public class ChooseGameActivity extends BaseActivity {
 
     @BindView(R.id.choose_game_single_game_button)
     Button singleGameButton;
+
+    public static Intent buildIntent(Context context) {
+        return new Intent(context, ChooseGameActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

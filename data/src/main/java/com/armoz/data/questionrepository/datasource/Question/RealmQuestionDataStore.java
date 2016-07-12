@@ -4,9 +4,12 @@ import com.armoz.data.entities.QuestionEntity;
 import com.armoz.data.realmbase.RealmDatabase;
 import com.mindtrapped.exception.NoMoreQuestionsFoundException;
 
+import java.util.Random;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 public class RealmQuestionDataStore implements QuestionDataStore {
 
@@ -24,10 +27,11 @@ public class RealmQuestionDataStore implements QuestionDataStore {
             query = query.not().equalTo("id", questionEntity.getId());
         }
 
-        QuestionEntity questionEntity = query.findFirst();
-        if (questionEntity == null) {
+        RealmResults<QuestionEntity> questionEntitiesResults = query.findAll();
+        if (questionEntitiesResults == null || questionEntitiesResults.isEmpty()) {
             throw new NoMoreQuestionsFoundException();
         }
+        QuestionEntity questionEntity = questionEntitiesResults.get(new Random().nextInt(questionEntitiesResults.size()));
         QuestionEntity questionEntityUnmanaged = realm.copyFromRealm(questionEntity);
 
         return questionEntityUnmanaged;

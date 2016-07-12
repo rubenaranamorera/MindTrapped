@@ -93,16 +93,20 @@ public class SingleGamePresenter {
                 view.setProgressBarProgress((int)millisUntilFinished);
                 if(timeToAdd != 0){
                     countDownTimer.cancel();
-                    startTimer(Math.min((int) millisUntilFinished + timeToAdd, DEFAULT_TIME));
+                    startTimer(calculateMillisUntilFinished((int) millisUntilFinished));
                 }
             }
 
             @Override
             public void onFinish() {
-                //showSkip();
+                view.goToChooseGame();
             }
         };
         countDownTimer.start();
+    }
+
+    private int calculateMillisUntilFinished(int millisUntilFinished) {
+        return Math.max(0, Math.min(millisUntilFinished + timeToAdd, DEFAULT_TIME));
     }
 
     @RxLogSubscriber
@@ -153,5 +157,7 @@ public class SingleGamePresenter {
         void showReset();
 
         void setProgressBarProgress(int progress);
+
+        void goToChooseGame();
     }
 }

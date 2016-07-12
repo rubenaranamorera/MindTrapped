@@ -4,7 +4,7 @@ import com.armoz.mindtrapped.presentation.base.PerActivity;
 import com.armoz.mindtrapped.presentation.statistics.presenter.StatisticsPresenter;
 import com.mindtrapped.executor.PostExecutionThread;
 import com.mindtrapped.executor.ThreadExecutor;
-import com.mindtrapped.interactor.GetStatisticsUseCase;
+import com.mindtrapped.interactor.SaveStatisticsUseCase;
 import com.mindtrapped.interactor.UseCase;
 import com.mindtrapped.repository.StatisticsRepository;
 
@@ -25,6 +25,6 @@ public class StatisticsModule {
     @Provides @PerActivity UseCase getStatisticsUseCase(
             StatisticsRepository statisticsRepository, ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread) {
-        return new GetStatisticsUseCase(statisticsRepository, threadExecutor, postExecutionThread);
+        return new SaveStatisticsUseCase(statisticsRepository, threadExecutor, postExecutionThread);
     }
 }

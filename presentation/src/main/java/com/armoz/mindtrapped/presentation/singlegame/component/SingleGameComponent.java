@@ -7,7 +7,6 @@ import com.armoz.mindtrapped.presentation.singlegame.module.SingleGameModule;
 import com.armoz.mindtrapped.presentation.singlegame.presenter.SingleGamePresenter;
 import com.mindtrapped.interactor.AnswerQuestionUseCase;
 import com.mindtrapped.interactor.LoadSingleGameUseCase;
-import com.mindtrapped.interactor.ResetQuestionStatisticsUseCase;
 import com.mindtrapped.interactor.SkipQuestionUseCase;
 
 import dagger.Component;
@@ -24,6 +23,4 @@ public interface SingleGameComponent {
     AnswerQuestionUseCase provideAnswerQuestionUseCase();
 
     SkipQuestionUseCase provideSkipQuestionUseCase();
-
-    ResetQuestionStatisticsUseCase provideResetQuestionStatisticsUseCase();
 }

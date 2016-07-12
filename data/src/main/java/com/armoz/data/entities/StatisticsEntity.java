@@ -1,6 +1,7 @@
 package com.armoz.data.entities;
 
-import io.realm.RealmList;
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -9,30 +10,30 @@ public class StatisticsEntity extends RealmObject {
     @PrimaryKey
     private long id;
 
-    private RealmList<QuestionEntity> questionSeenList;
-
-    private RealmList<QuestionEntity> correctQuestionList;
+    private int correctQuestions;
 
     private int correctQuestionsInARow;
+
+    private Date date;
 
     public StatisticsEntity() {
         //empty
     }
 
-    public RealmList<QuestionEntity> getQuestionSeenList() {
-        return questionSeenList;
+    public long getId() {
+        return id;
     }
 
-    public void setQuestionSeenList(RealmList<QuestionEntity> questionSeenList) {
-        this.questionSeenList = questionSeenList;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public RealmList<QuestionEntity> getCorrectQuestionList() {
-        return correctQuestionList;
+    public int getCorrectQuestions() {
+        return correctQuestions;
     }
 
-    public void setCorrectQuestionList(RealmList<QuestionEntity> correctQuestionList) {
-        this.correctQuestionList = correctQuestionList;
+    public void setCorrectQuestions(int correctQuestions) {
+        this.correctQuestions = correctQuestions;
     }
 
     public int getCorrectQuestionsInARow() {
@@ -43,24 +44,23 @@ public class StatisticsEntity extends RealmObject {
         this.correctQuestionsInARow = correctQuestionsInARow;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("***** Statistics Entity Details *****\n");
         stringBuilder.append("correctQuestionsInARow=" + this.getCorrectQuestionsInARow() + "\n");
-        stringBuilder.append("questionSeenListSize=" + this.getQuestionSeenList().size() + "\n");
-        stringBuilder.append("correctQuestionList=" + this.getCorrectQuestionList().size() + "\n");
+        stringBuilder.append("correctQuestions=" + this.getCorrectQuestions() + "\n");
         stringBuilder.append("*******************************");
 
         return stringBuilder.toString();
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }

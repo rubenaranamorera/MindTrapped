@@ -6,7 +6,7 @@ import com.mindtrapped.executor.PostExecutionThread;
 import com.mindtrapped.executor.ThreadExecutor;
 import com.mindtrapped.interactor.AnswerQuestionUseCase;
 import com.mindtrapped.interactor.LoadSingleGameUseCase;
-import com.mindtrapped.interactor.ResetQuestionStatisticsUseCase;
+import com.mindtrapped.interactor.SaveStatisticsUseCase;
 import com.mindtrapped.interactor.SkipQuestionUseCase;
 import com.mindtrapped.repository.QuestionRepository;
 import com.mindtrapped.repository.StatisticsRepository;
@@ -24,44 +24,39 @@ public class SingleGameModule {
     SingleGamePresenter singleGamePresenter(
             LoadSingleGameUseCase loadSingleGameUseCase,
             AnswerQuestionUseCase answerQuestionUseCase,
-            SkipQuestionUseCase skipQuestionUseCase,
-            ResetQuestionStatisticsUseCase resetQuestionStatisticsUseCase){
-        return new SingleGamePresenter(loadSingleGameUseCase, answerQuestionUseCase, skipQuestionUseCase, resetQuestionStatisticsUseCase);
+            SkipQuestionUseCase skipQuestionUseCase){
+        return new SingleGamePresenter(loadSingleGameUseCase, answerQuestionUseCase, skipQuestionUseCase);
     }
 
     @Provides @PerActivity
     LoadSingleGameUseCase loadSingleGameUseCase(
             QuestionRepository questionRepository,
-            StatisticsRepository statisticsRepository,
             ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread) {
-        return new LoadSingleGameUseCase(statisticsRepository, questionRepository, threadExecutor, postExecutionThread);
+        return new LoadSingleGameUseCase(questionRepository, threadExecutor, postExecutionThread);
     }
 
     @Provides @PerActivity
     AnswerQuestionUseCase answerQuestionUseCase(
             QuestionRepository questionRepository,
-            StatisticsRepository statisticsRepository,
             ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread) {
-        return new AnswerQuestionUseCase(statisticsRepository, questionRepository, threadExecutor, postExecutionThread);
+        return new AnswerQuestionUseCase(questionRepository, threadExecutor, postExecutionThread);
     }
 
     @Provides @PerActivity
     SkipQuestionUseCase skipQuestionUseCase(
             QuestionRepository questionRepository,
-            StatisticsRepository statisticsRepository,
             ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread) {
-        return new SkipQuestionUseCase(statisticsRepository, questionRepository, threadExecutor, postExecutionThread);
+        return new SkipQuestionUseCase(questionRepository, threadExecutor, postExecutionThread);
     }
 
     @Provides @PerActivity
-    ResetQuestionStatisticsUseCase resetQuestionStatisticsUseCase(
-            QuestionRepository questionRepository,
+    SaveStatisticsUseCase saveStatisticsUseCase(
             StatisticsRepository statisticsRepository,
             ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread) {
-        return new ResetQuestionStatisticsUseCase(statisticsRepository, questionRepository, threadExecutor, postExecutionThread);
+        return new SaveStatisticsUseCase(statisticsRepository, threadExecutor, postExecutionThread);
     }
 }

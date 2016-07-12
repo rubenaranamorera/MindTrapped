@@ -43,7 +43,7 @@ public class RealmDatabase {
     }
 
     private void initialize() {
-        if (getRealmInstance().where(StatisticsEntity.class).findFirst() == null){
+        if (getRealmInstance().where(QuestionEntity.class).findFirst() == null){
             getRealmInstance().executeTransaction(new Realm.Transaction() {
 
                 @Override
@@ -52,13 +52,6 @@ public class RealmDatabase {
                     Type type = new TypeToken<List<QuestionEntity>>() {}.getType();
                     List<QuestionEntity> questionEntityList = new Gson().fromJson(json, type);
                     realm.copyToRealm(questionEntityList);
-
-                    StatisticsEntity statisticsEntity = new StatisticsEntity();
-                    statisticsEntity.setId(0);
-                    statisticsEntity.setCorrectQuestionsInARow(0);
-                    statisticsEntity.setQuestionSeenList(new RealmList<QuestionEntity>());
-                    statisticsEntity.setCorrectQuestionList(new RealmList<QuestionEntity>());
-                    realm.copyToRealm(statisticsEntity);
                 }
             });
         }

@@ -1,5 +1,6 @@
 package com.mindtrapped.model;
 
+import java.util.Date;
 import java.util.Set;
 
 public class Statistics {
@@ -8,10 +9,19 @@ public class Statistics {
 
     private Set<Question> seenQuestionSet;
 
-    private Set<Question> correctQuestionSet;
+    private int correctQuestions;
 
     private int correctQuestionsInARow;
 
+    private Date date;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Set<Question> getSeenQuestionSet() {
         return seenQuestionSet;
@@ -21,12 +31,12 @@ public class Statistics {
         this.seenQuestionSet = seenQuestionSet;
     }
 
-    public Set<Question> getCorrectQuestionSet() {
-        return correctQuestionSet;
+    public int getCorrectQuestions() {
+        return correctQuestions;
     }
 
-    public void setCorrectQuestionSet(Set<Question> correctQuestionSet) {
-        this.correctQuestionSet = correctQuestionSet;
+    public void setCorrectQuestions(int correctQuestions) {
+        this.correctQuestions = correctQuestions;
     }
 
     public int getCorrectQuestionsInARow() {
@@ -37,11 +47,11 @@ public class Statistics {
         this.correctQuestionsInARow = correctQuestionsInARow;
     }
 
-    public long getId() {
-        return id;
+    public Date getDate() {
+        return date;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

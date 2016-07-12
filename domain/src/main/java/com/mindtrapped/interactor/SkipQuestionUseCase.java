@@ -9,7 +9,6 @@ import com.mindtrapped.model.QuestionStatistics;
 import com.mindtrapped.model.QuestionStatus;
 import com.mindtrapped.model.Statistics;
 import com.mindtrapped.repository.QuestionRepository;
-import com.mindtrapped.repository.StatisticsRepository;
 
 import java.util.Set;
 
@@ -20,17 +19,16 @@ import rx.Subscriber;
 
 public class SkipQuestionUseCase extends UseCase {
 
-    private final StatisticsRepository statisticsRepository;
     private final QuestionRepository questionRepository;
 
     private Question question;
     private Statistics statistics;
 
     @Inject
-    public SkipQuestionUseCase(StatisticsRepository statisticsRepository, QuestionRepository questionRepository,
-                               ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public SkipQuestionUseCase(QuestionRepository questionRepository,
+                               ThreadExecutor threadExecutor,
+                               PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
-        this.statisticsRepository = statisticsRepository;
         this.questionRepository = questionRepository;
     }
 
@@ -49,7 +47,7 @@ public class SkipQuestionUseCase extends UseCase {
         try {
             question = questionRepository.getUnseenQuestion(statistics.getSeenQuestionSet());
         } catch (NoMoreQuestionsFoundException e) {
-            questionStatistics.setResetQuestions(true);
+            questionStatistics.setFinishGame(true);
         }
 
         questionStatistics.setQuestion(question);
@@ -62,7 +60,5 @@ public class SkipQuestionUseCase extends UseCase {
         Set<Question> questionSeenList = statistics.getSeenQuestionSet();
         questionSeenList.add(question);
         statistics.setSeenQuestionSet(questionSeenList);
-
-        statisticsRepository.updateStatistics(statistics);
     }
 }

@@ -7,31 +7,27 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-
 public class StatisticsEntityMapper {
 
-    private QuestionEntityMapper questionEntityMapper;
-
     @Inject
-    public StatisticsEntityMapper(QuestionEntityMapper questionEntityMapper) {
-        this.questionEntityMapper = questionEntityMapper;
+    public StatisticsEntityMapper() {
     }
 
     public Statistics transformToDomainModel(StatisticsEntity statisticsEntity) {
         Statistics statistics = new Statistics();
         statistics.setId(statisticsEntity.getId());
-        statistics.setCorrectQuestionSet(questionEntityMapper.transformToDomainModel(statisticsEntity.getCorrectQuestionList()));
-        statistics.setSeenQuestionSet(questionEntityMapper.transformToDomainModel(statisticsEntity.getQuestionSeenList()));
+        statistics.setCorrectQuestions(statisticsEntity.getCorrectQuestions());
         statistics.setCorrectQuestionsInARow(statisticsEntity.getCorrectQuestionsInARow());
+        statistics.setDate(statisticsEntity.getDate());
         return statistics;
     }
 
     public StatisticsEntity transformToDataModel(Statistics statistics) {
         StatisticsEntity statisticsEntity = new StatisticsEntity();
         statisticsEntity.setId(statistics.getId());
-        statisticsEntity.setCorrectQuestionList(questionEntityMapper.transformToDataModel(statistics.getCorrectQuestionSet()));
-        statisticsEntity.setQuestionSeenList(questionEntityMapper.transformToDataModel(statistics.getSeenQuestionSet()));
-        statisticsEntity.setCorrectQuestionsInARow(statisticsEntity.getCorrectQuestionsInARow());
+        statisticsEntity.setCorrectQuestions(statistics.getCorrectQuestions());
+        statisticsEntity.setCorrectQuestionsInARow(statistics.getCorrectQuestionsInARow());
+        statisticsEntity.setDate(statistics.getDate());
         return statisticsEntity;
     }
 }

@@ -8,7 +8,6 @@ import com.fernandocejas.frodo.annotation.RxLogSubscriber;
 import com.mindtrapped.interactor.AnswerQuestionUseCase;
 import com.mindtrapped.interactor.DefaultSubscriber;
 import com.mindtrapped.interactor.LoadSingleGameUseCase;
-import com.mindtrapped.interactor.ResetQuestionStatisticsUseCase;
 import com.mindtrapped.interactor.SkipQuestionUseCase;
 import com.mindtrapped.model.AnswerEnum;
 import com.mindtrapped.model.Question;
@@ -28,7 +27,6 @@ public class SingleGamePresenter {
     private final LoadSingleGameUseCase loadSingleGameUseCase;
     private final AnswerQuestionUseCase answerQuestionUseCase;
     private final SkipQuestionUseCase skipQuestionUseCase;
-    private final ResetQuestionStatisticsUseCase resetQuestionStatisticsUseCase;
 
     private Question question;
     private Statistics statistics;
@@ -39,12 +37,10 @@ public class SingleGamePresenter {
 
     public SingleGamePresenter(LoadSingleGameUseCase loadSingleGameUseCase,
                                AnswerQuestionUseCase answerQuestionUseCase,
-                               SkipQuestionUseCase skipQuestionUseCase,
-                               ResetQuestionStatisticsUseCase resetQuestionStatisticsUseCase) {
+                               SkipQuestionUseCase skipQuestionUseCase) {
         this.loadSingleGameUseCase = loadSingleGameUseCase;
         this.answerQuestionUseCase = answerQuestionUseCase;
         this.skipQuestionUseCase = skipQuestionUseCase;
-        this.resetQuestionStatisticsUseCase = resetQuestionStatisticsUseCase;
     }
 
     public void setView(View view) {
@@ -57,10 +53,6 @@ public class SingleGamePresenter {
 
     public Statistics getStatistics() {
         return statistics;
-    }
-
-    public Question getQuestion() {
-        return question;
     }
 
     public void setQuestion(Question question) {
@@ -79,9 +71,9 @@ public class SingleGamePresenter {
         skipQuestionUseCase.execute(new QuestionStatisticsSubscriber(), question, statistics);
     }
 
-    private void resetQuestionStatistics() {
-        view.showReset();
-        resetQuestionStatisticsUseCase.execute(new QuestionStatisticsSubscriber(), statistics);
+    private void finishGame() {
+        //RecordStatisticsUseCase.saveStatistics(statistcs);
+        view.goToChooseGame();
     }
 
     private void startTimer(int timeInMillis) {
@@ -99,7 +91,7 @@ public class SingleGamePresenter {
 
             @Override
             public void onFinish() {
-                view.goToChooseGame();
+                finishGame();
             }
         };
         countDownTimer.start();
@@ -115,9 +107,12 @@ public class SingleGamePresenter {
         @Override
         public void onCompleted() {
         }
-
         @Override
         public void onNext(QuestionStatistics questionStatistics) {
+
+            if (questionStatistics.isFinishGame()){
+                finishGame();
+            }
 
             setQuestion(questionStatistics.getQuestion());
             setStatistics(questionStatistics.getStatistics());
@@ -137,11 +132,8 @@ public class SingleGamePresenter {
             }
 
             startTimer(DEFAULT_TIME);
-            /*if (questionStatistics.isResetQuestions()) {
-                resetQuestionStatistics();
-                return;
-            }*/
         }
+
     }
 
     public interface View {
@@ -153,8 +145,6 @@ public class SingleGamePresenter {
         void showMiss();
 
         void showSkip();
-
-        void showReset();
 
         void setProgressBarProgress(int progress);
 

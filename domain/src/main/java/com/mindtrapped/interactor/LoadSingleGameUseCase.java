@@ -8,7 +8,8 @@ import com.mindtrapped.model.Question;
 import com.mindtrapped.model.QuestionStatistics;
 import com.mindtrapped.model.Statistics;
 import com.mindtrapped.repository.QuestionRepository;
-import com.mindtrapped.repository.StatisticsRepository;
+
+import java.util.HashSet;
 
 import javax.inject.Inject;
 
@@ -16,14 +17,12 @@ import rx.Observable;
 
 public class LoadSingleGameUseCase extends UseCase {
 
-    private final StatisticsRepository statisticsRepository;
     private final QuestionRepository questionRepository;
 
     @Inject
-    public LoadSingleGameUseCase(StatisticsRepository statisticsRepository, QuestionRepository questionRepository,
+    public LoadSingleGameUseCase(QuestionRepository questionRepository,
                                  ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
-        this.statisticsRepository = statisticsRepository;
         this.questionRepository = questionRepository;
     }
 
@@ -31,11 +30,14 @@ public class LoadSingleGameUseCase extends UseCase {
     protected Observable buildUseCaseObservable() {
         QuestionStatistics questionStatistics = new QuestionStatistics();
         Question question = new Question();
-        Statistics statistics = statisticsRepository.getStatistics();
+        Statistics statistics = new Statistics();
+        statistics.setSeenQuestionSet(new HashSet<Question>());
+        statistics.setCorrectQuestions(0);
+        statistics.setCorrectQuestionsInARow(0);
         try {
             question = questionRepository.getUnseenQuestion(statistics.getSeenQuestionSet());
         } catch (NoMoreQuestionsFoundException e) {
-            questionStatistics.setResetQuestions(true);
+            questionStatistics.setFinishGame(true);
         }
 
         questionStatistics.setQuestion(question);

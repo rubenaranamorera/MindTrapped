@@ -4,6 +4,6 @@ import com.armoz.data.entities.StatisticsEntity;
 
 public interface StatisticsDataStore {
 
-    StatisticsEntity getStatisticsEntity();
+    void saveStatisticsEntity(StatisticsEntity statisticsEntity);
 
 }

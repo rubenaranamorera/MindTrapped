@@ -14,14 +14,7 @@ public class RealmStatisticsDataStore implements StatisticsDataStore {
     }
 
     @Override
-    public StatisticsEntity getStatisticsEntity() {
-        Realm realm = realmDatabase.getRealmInstance();
-        StatisticsEntity statisticsEntity = realm.where(StatisticsEntity.class).findFirst();
-        StatisticsEntity statisticsEntityUnmanaged = realm.copyFromRealm(statisticsEntity);
-        return statisticsEntityUnmanaged;
-    }
-
-    public void updateStatistics(final StatisticsEntity statisticsEntity) {
+    public void saveStatisticsEntity(final StatisticsEntity statisticsEntity) {
         Realm realm = realmDatabase.getRealmInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override

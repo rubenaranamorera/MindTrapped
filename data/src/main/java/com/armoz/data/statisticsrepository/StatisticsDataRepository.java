@@ -1,6 +1,5 @@
 package com.armoz.data.statisticsrepository;
 
-import com.armoz.data.entities.StatisticsEntity;
 import com.armoz.data.entities.mappers.StatisticsEntityMapper;
 import com.armoz.data.statisticsrepository.datasource.StatisticsDataStoreFactory;
 import com.mindtrapped.model.Statistics;
@@ -23,13 +22,7 @@ public class StatisticsDataRepository implements StatisticsRepository {
     }
 
     @Override
-    public Statistics getStatistics() {
-        StatisticsEntity statisticsEntity = statisticsDataStoreFactory.create().getStatisticsEntity();
-        return statisticsEntityMapper.transformToDomainModel(statisticsEntity);
-    }
-
-    @Override
-    public void updateStatistics(Statistics statistics) {
-        statisticsDataStoreFactory.create().updateStatistics(statisticsEntityMapper.transformToDataModel(statistics));
+    public void saveStatistics(Statistics statistics) {
+        statisticsDataStoreFactory.create().saveStatisticsEntity(statisticsEntityMapper.transformToDataModel(statistics));
     }
 }

@@ -10,7 +10,6 @@ import com.mindtrapped.model.QuestionStatistics;
 import com.mindtrapped.model.QuestionStatus;
 import com.mindtrapped.model.Statistics;
 import com.mindtrapped.repository.QuestionRepository;
-import com.mindtrapped.repository.StatisticsRepository;
 
 import java.util.Set;
 
@@ -21,7 +20,6 @@ import rx.Subscriber;
 
 public class AnswerQuestionUseCase extends UseCase {
 
-    private final StatisticsRepository statisticsRepository;
     private final QuestionRepository questionRepository;
 
     private Question question;
@@ -29,10 +27,10 @@ public class AnswerQuestionUseCase extends UseCase {
     private AnswerEnum userAnswer;
 
     @Inject
-    public AnswerQuestionUseCase(StatisticsRepository statisticsRepository, QuestionRepository questionRepository,
-                                 ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public AnswerQuestionUseCase(QuestionRepository questionRepository,
+                                 ThreadExecutor threadExecutor,
+                                 PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
-        this.statisticsRepository = statisticsRepository;
         this.questionRepository = questionRepository;
     }
 
@@ -58,7 +56,7 @@ public class AnswerQuestionUseCase extends UseCase {
         try {
             question = questionRepository.getUnseenQuestion(statistics.getSeenQuestionSet());
         } catch (NoMoreQuestionsFoundException e) {
-            questionStatistics.setResetQuestions(true);
+            questionStatistics.setFinishGame(true);
         }
 
         questionStatistics.setQuestion(question);
@@ -74,21 +72,17 @@ public class AnswerQuestionUseCase extends UseCase {
     public void updateStatisticsWithCorrectQuestion() {
         updateStatisticsWithSeenQuestion();
 
-        int questionsInARow = statistics.getCorrectQuestionsInARow() + 1;
-        statistics.setCorrectQuestionsInARow(questionsInARow);
+        int correctQuestionsInARow = statistics.getCorrectQuestionsInARow() + 1;
+        statistics.setCorrectQuestionsInARow(correctQuestionsInARow);
 
-        Set<Question> correctQuestionsList = statistics.getCorrectQuestionSet();
-        correctQuestionsList.add(question);
-        statistics.setCorrectQuestionSet(correctQuestionsList);
-
-        statisticsRepository.updateStatistics(statistics);
+        int correctQuestions = statistics.getCorrectQuestions() + 1;
+        statistics.setCorrectQuestions(correctQuestions);
     }
 
     public void updateStatisticsWithMissedQuestion() {
         updateStatisticsWithSeenQuestion();
 
         statistics.setCorrectQuestionsInARow(0);
-        statisticsRepository.updateStatistics(statistics);
     }
 
     private void updateStatisticsWithSeenQuestion() {

@@ -7,7 +7,5 @@ import com.mindtrapped.model.Statistics;
  */
 public interface StatisticsRepository {
 
-    Statistics getStatistics();
-
-    void updateStatistics(Statistics statistics);
+    void saveStatistics(Statistics statistics);
 }

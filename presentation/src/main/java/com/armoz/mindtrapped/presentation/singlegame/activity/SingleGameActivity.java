@@ -77,8 +77,8 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
 
     @Override
     public void onQuestionStatisticsLoaded(Question question, Statistics statistics) {
-        correctQuestionsView.setText(String.valueOf(statistics.getCorrectQuestionSet().size()));
         seenQuestionsView.setText(String.valueOf(statistics.getSeenQuestionSet().size()));
+        correctQuestionsView.setText(String.valueOf(statistics.getCorrectQuestions()));
         correctQuestionsInARowView.setText(String.valueOf(statistics.getCorrectQuestionsInARow()));
 
         questionView.setText(question.getQuestion());
@@ -103,11 +103,6 @@ public class SingleGameActivity extends BaseActivity implements SingleGamePresen
     @Override
     public void showSkip() {
         showAlert(getString(R.string.single_game_skip_question));
-    }
-
-    @Override
-    public void showReset() {
-        showAlert(getString(R.string.single_game_question_statistics_reset));
     }
 
     @Override

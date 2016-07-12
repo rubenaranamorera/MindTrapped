@@ -7,7 +7,7 @@ public class QuestionStatistics {
 
     private QuestionStatus questionStatus;
 
-    private boolean resetQuestions = false;
+    private boolean finishGame = false;
 
     public Question getQuestion() {
         return question;
@@ -33,11 +33,11 @@ public class QuestionStatistics {
         this.questionStatus = questionStatus;
     }
 
-    public boolean isResetQuestions() {
-        return resetQuestions;
+    public boolean isFinishGame() {
+        return finishGame;
     }
 
-    public void setResetQuestions(boolean resetQuestions) {
-        this.resetQuestions = resetQuestions;
+    public void setFinishGame(boolean finishGame) {
+        this.finishGame = finishGame;
     }
 }

@@ -10,7 +10,7 @@ import com.armoz.mindtrapped.presentation.base.activity.BaseActivity;
 import com.armoz.mindtrapped.presentation.choosegame.component.DaggerChooseGameComponent;
 import com.armoz.mindtrapped.presentation.choosegame.module.ChooseGameModule;
 import com.armoz.mindtrapped.presentation.singlegame.activity.SingleGameActivity;
-import com.armoz.mindtrapped.presentation.statistics.activity.StatisticsActivity;
+import com.armoz.mindtrapped.presentation.statistics.activity.RankingsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +41,7 @@ public class ChooseGameActivity extends BaseActivity {
 
     @OnClick(R.id.choose_game_statistics_button)
     public void goToStatistics() {
-        Intent intent = StatisticsActivity.buildIntent(this);
+        Intent intent = RankingsActivity.buildIntent(this);
         this.startActivity(intent);
     }
 

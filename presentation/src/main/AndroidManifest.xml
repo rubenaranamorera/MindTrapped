@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.singlegame.activity.SingleGameActivity" />
-        <activity android:name=".presentation.statistics.activity.StatisticsActivity" />
+        <activity android:name=".presentation.statistics.activity.RankingsActivity" />
     </application>
 
 </manifest>

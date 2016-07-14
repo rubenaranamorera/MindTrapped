@@ -20,15 +20,18 @@ public class SingleGameModule {
     public SingleGameModule() {
     }
 
-    @Provides @PerActivity
+    @Provides
+    @PerActivity
     SingleGamePresenter singleGamePresenter(
             LoadSingleGameUseCase loadSingleGameUseCase,
             AnswerQuestionUseCase answerQuestionUseCase,
-            SkipQuestionUseCase skipQuestionUseCase){
-        return new SingleGamePresenter(loadSingleGameUseCase, answerQuestionUseCase, skipQuestionUseCase);
+            SkipQuestionUseCase skipQuestionUseCase,
+            SaveStatisticsUseCase saveStatisticsUseCase) {
+        return new SingleGamePresenter(loadSingleGameUseCase, answerQuestionUseCase, skipQuestionUseCase, saveStatisticsUseCase);
     }
 
-    @Provides @PerActivity
+    @Provides
+    @PerActivity
     LoadSingleGameUseCase loadSingleGameUseCase(
             QuestionRepository questionRepository,
             ThreadExecutor threadExecutor,
@@ -36,7 +39,8 @@ public class SingleGameModule {
         return new LoadSingleGameUseCase(questionRepository, threadExecutor, postExecutionThread);
     }
 
-    @Provides @PerActivity
+    @Provides
+    @PerActivity
     AnswerQuestionUseCase answerQuestionUseCase(
             QuestionRepository questionRepository,
             ThreadExecutor threadExecutor,
@@ -44,7 +48,8 @@ public class SingleGameModule {
         return new AnswerQuestionUseCase(questionRepository, threadExecutor, postExecutionThread);
     }
 
-    @Provides @PerActivity
+    @Provides
+    @PerActivity
     SkipQuestionUseCase skipQuestionUseCase(
             QuestionRepository questionRepository,
             ThreadExecutor threadExecutor,
@@ -52,7 +57,8 @@ public class SingleGameModule {
         return new SkipQuestionUseCase(questionRepository, threadExecutor, postExecutionThread);
     }
 
-    @Provides @PerActivity
+    @Provides
+    @PerActivity
     SaveStatisticsUseCase saveStatisticsUseCase(
             StatisticsRepository statisticsRepository,
             ThreadExecutor threadExecutor,

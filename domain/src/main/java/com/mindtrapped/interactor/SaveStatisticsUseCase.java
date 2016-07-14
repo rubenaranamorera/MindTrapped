@@ -24,7 +24,7 @@ public class SaveStatisticsUseCase extends UseCase {
         this.statisticsRepository = statisticsRepository;
     }
 
-    public void execute(Subscriber subscriber,Statistics statistics) {
+    public void execute(Subscriber subscriber, Statistics statistics) {
         this.statistics = statistics;
         super.execute(subscriber);
     }

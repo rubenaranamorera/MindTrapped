@@ -8,6 +8,7 @@ import com.fernandocejas.frodo.annotation.RxLogSubscriber;
 import com.mindtrapped.interactor.AnswerQuestionUseCase;
 import com.mindtrapped.interactor.DefaultSubscriber;
 import com.mindtrapped.interactor.LoadSingleGameUseCase;
+import com.mindtrapped.interactor.SaveStatisticsUseCase;
 import com.mindtrapped.interactor.SkipQuestionUseCase;
 import com.mindtrapped.model.AnswerEnum;
 import com.mindtrapped.model.Question;
@@ -27,6 +28,7 @@ public class SingleGamePresenter {
     private final LoadSingleGameUseCase loadSingleGameUseCase;
     private final AnswerQuestionUseCase answerQuestionUseCase;
     private final SkipQuestionUseCase skipQuestionUseCase;
+    private final SaveStatisticsUseCase saveStatisticsUseCase;
 
     private Question question;
     private Statistics statistics;
@@ -37,10 +39,12 @@ public class SingleGamePresenter {
 
     public SingleGamePresenter(LoadSingleGameUseCase loadSingleGameUseCase,
                                AnswerQuestionUseCase answerQuestionUseCase,
-                               SkipQuestionUseCase skipQuestionUseCase) {
+                               SkipQuestionUseCase skipQuestionUseCase,
+                               SaveStatisticsUseCase saveStatisticsUseCase) {
         this.loadSingleGameUseCase = loadSingleGameUseCase;
         this.answerQuestionUseCase = answerQuestionUseCase;
         this.skipQuestionUseCase = skipQuestionUseCase;
+        this.saveStatisticsUseCase = saveStatisticsUseCase;
     }
 
     public void setView(View view) {
@@ -72,7 +76,7 @@ public class SingleGamePresenter {
     }
 
     private void finishGame() {
-        //RecordStatisticsUseCase.saveStatistics(statistcs);
+        saveStatisticsUseCase.execute(new SaveStatisticsSubscriber(),statistics);
         view.goToChooseGame();
     }
 
@@ -135,6 +139,14 @@ public class SingleGamePresenter {
         }
 
     }
+
+    @RxLogSubscriber
+    private final class SaveStatisticsSubscriber extends DefaultSubscriber<Void> {
+        @Override
+        public void onCompleted() {
+        }
+    }
+
 
     public interface View {
 

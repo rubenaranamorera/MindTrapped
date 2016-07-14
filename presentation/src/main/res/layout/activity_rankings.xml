@@ -9,23 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".presentation.statistics.activity.RankingsActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/rankings_questions_in_a_row" />
+    <ListView
+        android:layout_width="fill_parent"
+        android:id="@+id/rankings_total_correct_list"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"/>
 
-    <TextView
-        android:layout_below="@id/rankings_questions_in_a_row"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/rankings_questions_seen_size" />
-
-    <TextView
-        android:layout_below="@id/rankings_questions_seen_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/rankings_correct_questions_size" />
 </RelativeLayout>

@@ -50,7 +50,8 @@ public class RankingsActivity extends BaseActivity {
 
     public void onRankingLoaded(Ranking ranking) {
         RankingsAdapter rankingsAdapter =
-                new RankingsAdapter(this, R.layout.rankings_list_item, ranking.getTopTotalCorrectAnswersStatistics());
+                new RankingsAdapter(this, ranking.getTopTotalCorrectAnswersStatistics());
+        totalStatisticsList = (ListView) findViewById(R.id.rankings_total_correct_list);
         totalStatisticsList.setAdapter(rankingsAdapter);
     }
 }

@@ -14,31 +14,21 @@ import java.util.List;
 
 public class RankingsAdapter extends ArrayAdapter<Statistics> {
 
-    private Context context;
-    private int resource;
-    private List<Statistics> statistics;
-
-    public RankingsAdapter(Context context, int resource, List<Statistics> statistics) {
-        super(context, resource, statistics);
-        this.context = context;
-        this.resource = resource;
-        this.statistics = statistics;
+    public RankingsAdapter(Context context, List<Statistics> statistics) {
+        super(context, 0, statistics);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Statistics statistics = getItem(position);
 
-        View rootView = convertView;
-
-        if (rootView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rootView = inflater.inflate(resource, null);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.rankings_list_item, parent, false);
         }
 
-        Statistics statistics = getItem(position);
-        TextView titleView = (TextView) rootView.findViewById(R.id.rankings_correct_questions_size);
-        titleView.setText(statistics.getCorrectQuestions());
+        TextView titleView = (TextView) convertView.findViewById(R.id.rankings_correct_questions_size);
+        titleView.setText(Integer.toString(statistics.getCorrectQuestions()));
 
-        return rootView;
+        return convertView;
     }
 }

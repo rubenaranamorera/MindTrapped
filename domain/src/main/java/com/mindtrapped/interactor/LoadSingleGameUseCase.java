@@ -30,18 +30,14 @@ public class LoadSingleGameUseCase extends UseCase {
     protected Observable buildUseCaseObservable() {
         QuestionStatistics questionStatistics = new QuestionStatistics();
         Question question = new Question();
-        Statistics statistics = new Statistics();
-        statistics.setSeenQuestionSet(new HashSet<Question>());
-        statistics.setCorrectQuestions(0);
-        statistics.setCorrectQuestionsInARow(0);
         try {
-            question = questionRepository.getUnseenQuestion(statistics.getSeenQuestionSet());
+            question = questionRepository.getUnseenQuestion(new HashSet<Question>());
         } catch (NoMoreQuestionsFoundException e) {
             questionStatistics.setFinishGame(true);
         }
 
         questionStatistics.setQuestion(question);
-        questionStatistics.setStatistics(statistics);
+        questionStatistics.setStatistics(new Statistics());
         return Observable.just(questionStatistics);
     }
 

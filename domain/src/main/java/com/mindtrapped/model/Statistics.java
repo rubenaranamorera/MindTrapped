@@ -1,25 +1,26 @@
 package com.mindtrapped.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Statistics {
 
-    private long id;
+    private String id;
 
-    private Set<Question> seenQuestionSet;
+    private Set<Question> seenQuestionSet = new HashSet<>();
 
-    private int correctQuestions;
+    private int correctQuestions = 0;
 
-    private int correctQuestionsInARow;
+    private int correctQuestionsInARow = 0;
 
     private Date date;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
